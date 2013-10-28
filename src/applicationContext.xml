@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+           
+    <!-- 扫描，无需写配置文件实例化service和dao -->
+	<context:component-scan base-package="com.yzlexam"> 
+		<context:exclude-filter type="annotation"	expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<!-- 配置文件加载 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/jdbc-mysql.properties</value>
+			</list>
+		</property>
+	</bean>
+	 
+	<bean id="parentDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close" abstract="true">
+		<property name="driverClass">
+			<value>${jdbc.driverClassName}</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="user">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<property name="maxPoolSize">
+			<value>${jdbc.maxPoolSize}</value>
+		</property>
+		<property name="minPoolSize">
+			<value>${jdbc.minPoolSize}</value>
+		</property>
+		<property name="initialPoolSize">
+			<value>${jdbc.initialPoolSize}</value>
+		</property>
+		<property name="idleConnectionTestPeriod">
+			<value>${jdbc.idleConnectionTestPeriod}
+			</value>
+		</property>
+		<property name="maxIdleTime">
+			<value>${jdbc.maxIdleTime}</value>
+		</property>
+	</bean>
+
+	<bean id="write" parent="parentDataSource"></bean>
+
+	<bean id="dataSource" class="com.fairyhawk.dbutil.FKRoutingDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<entry key="write" value-ref="write" />
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="write" />
+		<property name="dataSourceKeyControl">
+			<ref local="dataSourceKeyControl" />
+		</property>
+	</bean>
+
+	<bean id="dataSourceKeyControl" class="com.fairyhawk.dbutil.DataSourceKeyControlImpl">
+		<property name="readDateSourceMap">
+			<map key-type="java.lang.String">
+				<entry key="write" value="write" />
+			</map>
+		</property>
+		<property name="writeKey">
+			<value>write</value>
+		</property>
+	</bean>
+	
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<bean id="transactionInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributes">
+			<props>
+				<!-- 读操作 -->
+				<prop key="query*">PROPAGATION_SUPPORTS,-Exception</prop>
+				<prop key="find*">PROPAGATION_SUPPORTS,-Exception</prop>
+				<prop key="get*">PROPAGATION_SUPPORTS,-Exception</prop>
+				<prop key="load*">PROPAGATION_SUPPORTS,-Exception</prop>
+				<prop key="count*">PROPAGATION_SUPPORTS,-Exception</prop>
+				<prop key="list*">PROPAGATION_SUPPORTS,-Exception</prop>
+				<prop key="check*">PROPAGATION_SUPPORTS,-Exception</prop>
+				<prop key="qry*">PROPAGATION_SUPPORTS,-Exception</prop>
+				<!-- 写操作 -->
+				<prop key="save*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="del*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="add*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="insert*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="creat*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="remove*">PROPAGATION_REQUIRED,-Exception</prop>
+				
+				<prop key="*">PROPAGATION_SUPPORTS,-Exception</prop>
+
+			</props>
+		</property>
+	</bean>
+
+	<!-- 动态数据源拦截器 -->
+	<bean id="dataSourceInterceptor" class="com.fairyhawk.dbutil.DataSourceInterceptor">
+		<property name="attributes">
+			<props>
+				<!-- 读操作 -->
+				<prop key="query*">read</prop>
+				<prop key="find*">read</prop>
+				<prop key="get*">read</prop>
+				<prop key="load*">read</prop>
+				<prop key="count*">read</prop>
+				<prop key="list*">read</prop>
+				<prop key="check*">read</prop>
+				<prop key="qry*">read</prop>
+				<!-- 写操作 -->
+				<prop key="save*">write</prop>
+				<prop key="upd*">write</prop>
+				<prop key="del*">write</prop>
+				<prop key="add*">write</prop>
+				<prop key="insert*">write</prop>
+				<prop key="creat*">write</prop>
+				<prop key="edit*">write</prop>
+				<prop key="remove*">write</prop>
+				<prop key="*">read</prop>
+			</props>
+		</property>
+		<property name="dataSourceKeyControl">
+			<ref bean="dataSourceKeyControl" />
+		</property>
+	</bean>
+
+	<!-- 根据Name匹配拦截器 -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>*Service</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<!-- 指定获取数据源的Interceptor -->
+				<value>dataSourceInterceptor</value>
+				<!-- 事务管理的Interceptor -->
+				<value>transactionInterceptor</value>
+			</list>
+		</property>
+	</bean>
+	
+   <!-- 本项目数据源代码-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    	 <property name="configLocation"  value="classpath:/SqlMapConfig.xml"/>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="sqlSessionMain" class="org.mybatis.spring.SqlSessionTemplate">  
+    	<constructor-arg index="0" ref="sqlSessionFactory"/>  
+	</bean>
+    
+</beans>
