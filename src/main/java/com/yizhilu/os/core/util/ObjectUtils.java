@@ -169,4 +169,79 @@ public class ObjectUtils {
 		
 		return null;
 	}
+	/**
+     * 判断对象是否非空
+     * 
+     * @param o
+     * @return
+     */
+    public static boolean isNotNull(Object o) {
+        return !isNull(o);
+    }
+
+    /**
+     * 判断集合是否非空
+     * 
+     * @param list
+     * @return
+     */
+    public static boolean isNotNull(List<?> list) {
+
+        return !isNull(list);
+    }
+
+    /**
+     * 判断集合是否非空
+     * 
+     * @param list
+     * @return
+     */
+    public static boolean isNotNull(Set<?> set) {
+
+        return !isNull(set);
+    }
+
+    /**
+     * 判断集合是否为空
+     * 
+     * @param map
+     * @return
+     */
+    public static boolean isNotNull(Map<?, ?> map) {
+        return !isNull(map);
+    }
+
+    /**
+     * 判断Long是否为空
+     * 
+     * @param lg
+     * @return
+     */
+    public static boolean isNotNull(Long lg) {
+        return !isNull(lg);
+    }
+
+    /**
+     * 判断Integer是否为空
+     * 
+     * @param it
+     * @return
+     */
+    public static boolean isNotNull(Integer it) {
+        return !isNull(it);
+    }
+
+    public static boolean isNotNull(File file) {
+        return !isNull(file);
+    }
+
+    /**
+     * 判断数组是否为空
+     * 
+     * @param strs
+     * @return
+     */
+    public static boolean isNotNull(Object[] strs) {
+        return !isNull(strs);
+    }
 }

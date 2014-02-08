@@ -1,15 +1,9 @@
 package com.yizhilu.os.core.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.security.MessageDigest;
-import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -151,35 +145,6 @@ public class StringUtils {
 	}
 
 	/**
-	 * 验证字符串是否为空
-	 * @author liuqinggang
-	 * @param str
-	 * @return true:不为空
-	 */
-	public static boolean validNull(String str) {
-		if (str == null || str.trim().equals("")) {
-			return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * 
-	 * @author liuqinggang
-	 * @param str
-	 * @return
-	 *
-	 */
-	public static boolean validNull(String... str) {
-		for(int i=0;i<str.length;i++){
-			if (str[i] == null || str[i].trim().equals("")) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
 	 * 验证两个字符串是否相等且不能为空
 	 * 
 	 * @param str1
@@ -194,7 +159,7 @@ public class StringUtils {
 	}
 
 	/**
-	 * 将字符型转为Int�?
+	 * 将字符型转为Int
 	 * 
 	 * @param str
 	 * @return
@@ -209,7 +174,6 @@ public class StringUtils {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			value = 0;
-			ex.printStackTrace();
 		}
 		return value;
 	}
@@ -284,27 +248,6 @@ public class StringUtils {
 		return filePath;
 	}
 
-	public static String getRootPath(String resource) {
-		String filePath = Thread.currentThread().getContextClassLoader()
-				.getResource(resource).toString();
-		if (filePath.toLowerCase().indexOf("file:") > -1) {
-			filePath = filePath.substring(6, filePath.length());
-		}
-		if (filePath.toLowerCase().indexOf("classes") > -1) {
-			filePath = filePath.replaceAll("/classes", "");
-		}
-		if (filePath.toLowerCase().indexOf("web-inf") > -1) {
-			filePath = filePath.substring(0, filePath.length() - 9);
-		}
-		if (System.getProperty("os.name").toLowerCase().indexOf("window") < 0) {
-			filePath = "/" + filePath;
-		}
-
-		if (!filePath.endsWith("/"))
-			filePath += "/";
-
-		return filePath;
-	}
 
 	/**
 	 * 格式化页�?
@@ -353,7 +296,7 @@ public class StringUtils {
 	}
 
 	/**
-	 * 得到�?�?32位随机字�?
+	 * 得到32位随机字
 	 * 
 	 * @return
 	 */
@@ -395,25 +338,15 @@ public class StringUtils {
 		}
 	}
 
-	public static String getRandStr(int n) {
-		Random random = new Random();
-		String sRand = "";
-		for (int i = 0; i < n; i++) {
-			String rand = String.valueOf(random.nextInt(10));
-			sRand += rand;
-		}
-		return sRand;
-	}
-
 	/**
-	 * 得到�?个数字的大写(�?到十之内)
+	 * 得到10个数字的大写，0-9
 	 * 
 	 * @param num
 	 * @return
 	 */
 	public static String getChineseNum(int num) {
-		String[] chineseNum = new String[] { "�?", "�?", "�?", "�?", "�?",
-				"�?", "�?", "�?", "�?", "�?" };
+		String[] chineseNum = new String[] { "零", "壹", "贰", "叁", "肆",
+				"伍", "陆", "柒", "捌", "玖" };
 		return chineseNum[num];
 	}
 
@@ -463,207 +396,13 @@ public class StringUtils {
 		return "";
 	}
 
-	/**
-	 * 交易trxInfoList 内数据判断长度是否一致并重新组装 add by wenhua.cheng
-	 * 
-	 * @param trxInfoList
-	 * @return
-	 */
-	public static List<String[]> transTrxInfo(List<String> trxInfoList) {
-		List<String[]> resultList = new ArrayList<String[]>();
-		int firstSize = 0;
-		int temp = 0;// 计数器
-		for (String item : trxInfoList) {
-			String[] stringAarray = StringUtils.toTrim(item).split("\\|");
-			int arrayNum = stringAarray.length;
-			if (temp == 0) {
-				firstSize = arrayNum;
-			}
-			if (firstSize != arrayNum) {
-				throw new IllegalArgumentException(
-						"trxInfo array size not equals"+item);
-			}
-			temp += 1;
-			resultList.add(stringAarray);
-		}
-		return resultList;
-
-	}
-
-	
-
-	/**
-	 * 序列号备用随机数
-	 * 
-	 * @return
-	 */
-	public static String getSysTimeRandom() {
-		return System.currentTimeMillis() + "" + new Random().nextInt(100);
-
-	}
-
-	/**
-	 * 商品订单序列号备用随机数--指定位数
-	 * 
-	 * @return
-	 */
-	public static String getSysTimeRandom(int count) {
-
-		String resultRandom = System.currentTimeMillis() + ""
-				+ new Random().nextInt(100);
-
-		String resultRandomPro = "";
-		int resultCount = resultRandom.length();
-		if (count >= resultCount) {
-			for (int i = 0; i < count - resultCount; i++) {
-
-				resultRandomPro += "0";
-
-			}
-			return resultRandomPro + resultRandom;
-		} else {
-
-			return resultRandom.substring(resultCount - 1 - count,
-					resultCount - 1);
-		}
-
-	}
 
 	/**
 	 * UUID
 	 */
-	// public static String createUUID() {
-	// UUID uuid = UUID.randomUUID();
-	// return uuid.toString().replaceAll("-", "").substring(0, 19);
-	// }
-	//
 	public static String createUUID() {
 		UUID uuid = UUID.randomUUID();
 		return uuid.toString();
-	}
-
-	/**
-	 * 参数转换
-	 * 
-	 * @param source
-	 * @return
-	 */
-	public static String[] parseParam(String source) {
-
-		if (source == null || "".equals(source)) {
-			throw new IllegalArgumentException("source is null");
-		}
-		String[] resultAry = source.split("&");
-		return resultAry;
-	}
-
-	/**
-	 * 参数转换 renli.yu
-	 * 
-	 * @param source
-	 * @return
-	 */
-	public static String[] parseParamArray(String source) {
-
-		if (source == null || "".equals(source)) {
-			throw new IllegalArgumentException("source is null");
-		}
-		String[] resultAry = source.split("\\|");
-		return resultAry;
-	}
-
-	public static String convStrToHessian(String item, int count)
-			throws UnsupportedEncodingException {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < count; i++) {
-			sb.append(URLEncoder.encode(item, "utf-8")).append("|");
-		}
-		if (sb != null && sb.length() > 0) {
-			sb.deleteCharAt(sb.length() - 1);
-		}
-
-		return sb.toString();
-	}
-
-	public static String convToHessian(String item, int count)
-			throws UnsupportedEncodingException {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < count; i++) {
-			sb.append(URLEncoder.encode(item, "utf-8")).append("|");
-		}
-
-		return sb.toString();
-	}
-
-	public static String convAryToStr(String sourceStr, String sourceChar,
-			String resultChar, boolean isTrans) {
-		if (isTrans) {
-			sourceChar = "\\" + sourceChar;
-		}
-		String[] sourceStrAry = sourceStr.split(sourceChar);
-
-		int count = sourceStrAry.length;
-
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < count; i++) {
-			try {
-				Long.parseLong(sourceStrAry[i]); // 如果不为数字，则抛异常
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			sb.append(sourceStrAry[i]).append(resultChar);
-		}
-		if (sb != null && sb.length() > 0) {
-			sb.deleteCharAt(sb.length() - 1);
-		}
-
-		return sb.toString();
-	}
-
-	public static String convListToString(List<Map<String, Object>> list,
-			String flag) {
-		StringBuilder sb = new StringBuilder();
-		int count = list.size();
-		for (int i = 0; i < count; i++) {
-			sb.append(list.get(i).get(flag));
-			sb.append(",");
-		}
-		if (sb != null && sb.length() > 0) {
-			sb.deleteCharAt(sb.length() - 1);
-		}
-
-		return sb.toString();
-	}
-
-	public static String queryParam(String param, String queryParam) {
-		if (validNull(param)) {
-			return queryParam + "=" + param + "&";
-		} else {
-			return "";
-		}
-	}
-
-	
-
-	/**
-	 * Description : 讲字符串类型转换为java.sql.Timestamp
-	 * 
-	 * @param time
-	 * @return
-	 */
-	public static Timestamp convertToTimestamp(String time) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		java.util.Date myDate = null;
-		Timestamp myTimestamp = null;
-		try {
-			myDate = sdf.parse(time);
-			myTimestamp = new Timestamp(myDate.getTime());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return myTimestamp;
 	}
 
 	/**
@@ -690,36 +429,6 @@ public class StringUtils {
 
 	}
 
-	
-
-	/**
-	 * 随机取模
-	 * 
-	 * @return
-	 */
-	public static String randomBase() {
-
-		String result = String.valueOf(System.currentTimeMillis() % 10);
-
-		return result;
-
-	}
-
-	/**
-	 * 根据用户账户ID取模
-	 * 
-	 * @param id
-	 * @return
-	 */
-
-	public static Long getDeliveryIdBase(Long id) {
-		if (id == null) {
-			throw new IllegalArgumentException();
-		}
-
-		return id % 10;
-
-	}
 
 	public static boolean isNumber(String str) {
 		if (str == null || str.trim().equals("")) {
@@ -749,29 +458,6 @@ public class StringUtils {
 		}
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * 替换email中@符号前的一半字符为*号
 	 * @param email
@@ -798,73 +484,6 @@ public class StringUtils {
 		return email;
 	}
 
-	/**
-	 * @param strIp1 获取的分销商IP
-	 * @param StrIp2数据库白名单IP
-	 * @return
-	 */
-	public static boolean checkIp(String strIp1,String StrIp2){
-		boolean boo = false;
-		if("".equals(StrIp2)){
-			return true;
-		}
-		 boolean isOrderIpRule=strIp1.matches("\\b((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\b");
-		 if(!isOrderIpRule){
-			 return boo;
-		 }
-		String ipArray[] = StrIp2.split(",");
-		for(int i = 0;i<ipArray.length;i++){  
-			String ipArr = ipArray[i];
-			String ipay = "";
-			if(ipArr.contains("*")){   //如格式为192.168.1.*判断
-				ipay = ipArr.substring(0,ipArr.lastIndexOf("."));
-				boo = strIp1.substring(0,strIp1.lastIndexOf(".")).equals(ipay);
-				if(boo){
-					return boo;
-				}
-			}else if(ipArr.contains("-")){  //如格式为192.168.1.1-155判断
-				 ipay = ipArr.substring(ipArr.lastIndexOf(".")+1);
-				 String ipayArray[] = ipay.split("-");
-				 String ips = strIp1.substring(strIp1.lastIndexOf(".")+1);
-				 if(Integer.parseInt(ipayArray[0])<=Integer.parseInt(ips)&&Integer.parseInt(ips)<=Integer.parseInt(ipayArray[1])){
-					 boo = true;
-					 return boo;
-				 }
-			}else{   //如格式为192.168.1.1判断
-				boo = strIp1.equals(ipArr);
-				if(boo){
-					return boo;
-				}
-			}
-		}
-		return boo;
-	}
-	
-	
-	public static boolean isEmpty(String str){
-		if( null == str || str.trim().length() == 0){
-		    return true;
-		}
-		return false;
-	}
-	
-	public static boolean isNotEmpty(String str){
-        return !isEmpty(str);
-    }
-	
-	/**
-	 * 组装字符串 为字符串添加前缀后缀 add by wangweijie
-	 * @param str
-	 * @param prefix	 前缀
-	 * @param suffix	后缀
-	 * @return
-	 */
-	public static String packagingString(String str,String prefix,String suffix){
-		if(StringUtils.isEmpty(str)) str = "";
-		if(StringUtils.isEmpty(prefix)) prefix = "";
-		if(StringUtils.isEmpty(suffix)) suffix = "";
-		return prefix + str + suffix;
-	}
 	
 	private static final String regex_mobile = "^1\\d{10}$";
 	
@@ -878,11 +497,7 @@ public class StringUtils {
 	public static boolean isMobileNo(String tocheckNo){
 		return Pattern.matches(regex_mobile, tocheckNo);
 	}
-	public static void main(String[] args) {
-		// System.out.print(cutffStr("我是测试商品上市上", 10, "..."));
-		//String testStr = "【台江区】【交通便利】仅5元！到店另付70元乐享天然居145元4-5人套餐！爆炒腰花+荔枝肉+茶菇松劲肉+冬笋炒酸菜+青菜+豆腐干贝羹+餐具！尝特色美味，品精致生活，您还在犹豫什么？";
-		System.out.println(handleEmail("176786787126.com"));
-	}
+	
 	private static final String regex_digital = "^[1-9]\\d{0,}";
 	/**
 	 * 
@@ -906,65 +521,4 @@ public class StringUtils {
 		return isvalid;
 	}
 	
-	
-	/**
-	 * 字符串对以分号分隔的字符串转化为数组，并对数组按有小到大的排序
-	 * add by wangweijie 2012-11-16
-	 * @return
-	 */
-	public static String[] sortArray(String[] array){
-		//冒泡排序--有小到大顺序
-		for(int i=0;i<array.length;i++){
-			for(int j=0;j<i;j++){
-				if(array[i].compareTo(array[j]) < 0){
-					String temp = array[j];
-					array[j] = array[i];
-					array[i] = temp;
-				}
-			}
-		}
-		return array;
-	}
-	
-	/**
-	 * 字符串折半查找(数组必须是由小到大排列的有序数组
-	 * -1代表未查到，否则返回查找的下标
-	 * add by wangweijie 2012-11-16
-	 */
-	public static int bisearch(final String[] sourceArray,final String seek){
-		if(null == sourceArray || sourceArray.length==0 || null == seek){
-			return -1;
-		}
-		
-		int bottom = 0;
-		int top = sourceArray.length-1;
-		int mid;
-		
-		while(bottom<=top){
-			mid = (bottom+top)/2;
-			int result = sourceArray[mid].compareTo(seek);
-			if(0==result){
-				return mid;
-			}else if(result > 0){
-				top = mid-1;
-			}else{
-				bottom = mid+1;
-			}
-		}
-		return -1;
-	}
-	
-	/**
-	 * 判断字符串是否为空
-	 * 
-	 * @param str
-	 * @return true(空); false(非空)
-	 */
-	public static boolean isBlank(String str) {
-		return null == str || str.trim().length() == 0;
-	}
-	
-	public static boolean isBlank(Object obj) {
-		return ObjectUtils.isNull(obj) ? true : isBlank(obj.toString());
-	}
 }
