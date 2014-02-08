@@ -21,6 +21,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.yizhilu.os.core.util.DESCoder;
@@ -483,5 +485,16 @@ public class WebUtils {
     public static String getUid(Long cusId, String pwd) throws Exception {
         return DESCoder.md5(DESCoder.encrypt(cusId + pwd));
     }
-
+    /**
+     * 替换掉html内容<>
+     * @param src
+     * @return
+     */
+    public static String replaceTagHTML(String src){
+        String regex="\\<(.+?)\\>";
+        if(StringUtils.isNotEmpty(src)){
+            return src.replaceAll(regex,  "");
+        }
+        return "";
+    }
 }
