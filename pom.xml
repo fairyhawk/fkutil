@@ -13,6 +13,7 @@
 		<spring.version>3.2.4.RELEASE</spring.version>
 		<aspectj.version>1.7.3</aspectj.version>
 		<jdk.version>1.7</jdk.version>
+		<java.home>C:\Program Files\Java\jdk1.7.0_45</java.home>
 		<lucene.version>4.6.0</lucene.version>
 	</properties>
 	
@@ -53,6 +54,22 @@
 					</executions>
 				</plugin>
 				
+				 <plugin>  
+					  <groupId>org.apache.maven.plugins</groupId>  
+					  <artifactId>maven-compiler-plugin</artifactId>  
+					  <configuration>  
+					    <source>${jdk.vsrsion}</source>  
+					    <target>${jdk.vsrsion}</target>  
+					    <optimize>true</optimize>  
+					    <debug>true</debug>  
+					    <showDeprecation>false</showDeprecation>  
+					    <showWarnings>false</showWarnings> 
+					    <compilerArguments>
+									<bootclasspath>${java.home}\jre\lib\rt.jar;${java.home}\jre\lib\jce.jar</bootclasspath>
+						</compilerArguments>  
+					  </configuration>
+				</plugin> 
+					
 				<!-- enforcer插件, 避免被依赖的依赖引入过期的jar包 -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -274,6 +291,7 @@
 	            <artifactId>guava</artifactId>
 	            <version>15.0</version>
 	        </dependency>
+	        
 	</dependencies>
 
 
