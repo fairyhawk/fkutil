@@ -37,7 +37,7 @@ import com.yizhilu.os.core.util.DESCoder;
 public class WebUtils {
 
     // 存储主站域名
-    private static String MYDOMAIN = "";// .268xue.com
+    public static String MYDOMAIN = "";
 
     /**
      * 增加或修改cookie
@@ -49,18 +49,7 @@ public class WebUtils {
      */
     public static void setCookie(HttpServletResponse response, String key, String value,
             int days) {
-
-        if (key != null && value != null) {
-            Cookie cookie = new Cookie(key, value);
-            // 设置有效日期
-            cookie.setMaxAge(days * 24 * 60 * 60);
-            // 设置路径（默认）
-            cookie.setPath("/");
-            // cookie.setDomain(MYDOMAIN);
-            // 把cookie放入响应中
-            response.addCookie(cookie);
-        }
-
+        setCookie(response, key, value, days, MYDOMAIN);
     }
 
     /**
@@ -80,8 +69,8 @@ public class WebUtils {
             cookie.setMaxAge(days * 24 * 60 * 60);
             // 设置路径（默认）
             cookie.setPath("/");
-            if (domain != null) {
-                cookie.setDomain(MYDOMAIN);
+            if (StringUtils.isNotEmpty(domain)) {//domain != null
+                cookie.setDomain(domain);
             }
             // 把cookie放入响应中
             response.addCookie(cookie);
@@ -104,7 +93,9 @@ public class WebUtils {
             if (cookies.length > 0) {
                 for (int i = 0; i < cookies.length; i++) {
                     if (key.equalsIgnoreCase(cookies[i].getName())) {
-                        resValue = cookies[i].getValue();
+                        if(StringUtils.isNotEmpty(cookies[i].getValue())){
+                            resValue = cookies[i].getValue();
+                        }
                     }
                 }
             }
@@ -120,22 +111,8 @@ public class WebUtils {
      */
     public static void deleteCookie(HttpServletRequest request,
             HttpServletResponse response, String name) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            if (cookies.length > 0) {
-                for (int i = 0; i < cookies.length; i++) {
-                    if (name.equalsIgnoreCase(cookies[i].getName())) {
-                        Cookie cookie = cookies[i];
-                        // 销毁
-                        Cookie ck = new Cookie(cookie.getName(), null);
-                        ck.setPath("/");
-                        ck.setMaxAge(0);
-                        response.addCookie(ck);
-                        return;
-                    }
-                }
-            }
-        }
+        deleteCookieDomain(request, response, name, MYDOMAIN);
+      
     }
 
     /**
@@ -156,8 +133,10 @@ public class WebUtils {
                         // 销毁
                         Cookie ck = new Cookie(cookie.getName(), null);
                         ck.setPath("/");
-                        ck.setDomain(domain);
-                        ck.setMaxAge(0);
+                        if (StringUtils.isNotEmpty(domain)) {//domain != null
+                            cookie.setDomain(domain);
+                        }
+                        ck.setMaxAge(-1);
                         response.addCookie(ck);
                         return;
                     }
@@ -178,20 +157,7 @@ public class WebUtils {
      */
     public static void createCookieFromMap(HttpServletResponse response,
             Hashtable<String, String> nameValues, int days) {
-        Set<String> set = nameValues.keySet();
-        Iterator<String> it = set.iterator();
-        for (; it.hasNext();) {
-            String name = (String) it.next();
-            String value = (String) nameValues.get(name);
-            // 生成新的cookie
-            Cookie cookie = new Cookie(name, value);
-            // 设置有效日期
-            cookie.setMaxAge(days * 24 * 60 * 60);
-            // 设置路径（默认）
-            cookie.setPath("/");
-            // 把cookie放入响应中
-            response.addCookie(cookie);
-        }
+        createCookieFromMapDomain(response, nameValues, days, MYDOMAIN);
     }
 
     /**
@@ -215,7 +181,9 @@ public class WebUtils {
             String value = (String) nameValues.get(name);
             // 生成新的cookie
             Cookie cookie = new Cookie(name, value);
-            cookie.setDomain(domain);
+            if (StringUtils.isNotEmpty(domain)) {//domain != null
+                cookie.setDomain(domain);
+            }
             cookie.setSecure(false);
             // 设置有效日期
             cookie.setMaxAge(days * 24 * 60 * 60);
@@ -227,7 +195,7 @@ public class WebUtils {
     }
 
     /**
-     * 读取Cookie
+     * 读取所有Cookie
      * 
      * @param request
      * @return Hashtable 返回cookie的键值对
@@ -273,6 +241,12 @@ public class WebUtils {
      */
     public static void deleteAllCookie(HttpServletRequest request,
             HttpServletResponse response) {
+        System.out.println("++++del doami:"+MYDOMAIN);
+        deleteAllCookieDomain(request, response,MYDOMAIN);
+    }
+    
+    public static void deleteAllCookieDomain(HttpServletRequest request,
+            HttpServletResponse response,String domain) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (int i = 0; i < cookies.length; i++) {
@@ -280,11 +254,16 @@ public class WebUtils {
                 // 销毁
                 Cookie ck = new Cookie(cookie.getName(), null);
                 ck.setPath("/");
+                System.out.println("++cookie.getName():"+cookie.getName());
+                if (StringUtils.isNotEmpty(domain)) {
+                    cookie.setDomain(domain);
+                }
                 ck.setMaxAge(0);
                 response.addCookie(ck);
             }
         }
     }
+    
 
     // 获得IP地址
     public static String getIpAddr(HttpServletRequest request) {
@@ -381,6 +360,27 @@ public class WebUtils {
     }
 
     // IPUTIL********
+    
+    public static String getAddressByIP(String ip) {
+        String js = visitWeb("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip="
+                + ip);
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jo = jsonParser.parse(js.substring(21)).getAsJsonObject();
+        String province = "";
+        String city = "";
+        try {
+            province = jo.get("province") == null ? "" : URLDecoder.decode(
+                    jo.get("province").toString(), "UTF-8");
+            city = jo.get("city") == null ? "" : URLDecoder.decode(jo.get("city")
+                    .toString(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return (province.equals("") || province.equals(city)) ? city : province + " "
+                + city;
+    }
+
+    
     public static String visitWeb(String urlStr) {
         URL url = null;
         HttpURLConnection httpConn = null;
@@ -429,25 +429,7 @@ public class WebUtils {
         }
     }
 
-    public static String getAddressByIP(String ip) {
-        String js = visitWeb("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip="
-                + ip);
-        JsonParser jsonParser = new JsonParser();
-        JsonObject jo = jsonParser.parse(js.substring(21)).getAsJsonObject();
-        String province = "";
-        String city = "";
-        try {
-            province = jo.get("province") == null ? "" : URLDecoder.decode(
-                    jo.get("province").toString(), "UTF-8");
-            city = jo.get("city") == null ? "" : URLDecoder.decode(jo.get("city")
-                    .toString(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return (province.equals("") || province.equals(city)) ? city : province + " "
-                + city;
-    }
-
+    
     // IPUTIL********
 
     /**

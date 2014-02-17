@@ -60,9 +60,6 @@ public class LoggerFilter extends HandlerInterceptorAdapter {
             }
         }
 
-        // 当前登录者ID
-        String ukey = WebUtils.getCookie(request, CoreConstant.COOKIE_REMEMBERME_KEY);
-
         StringBuffer buffer = new StringBuffer("");
 
         Enumeration<String> enume = request.getParameterNames();
@@ -74,7 +71,7 @@ public class LoggerFilter extends HandlerInterceptorAdapter {
             }
             buffer.append(key).append(":").append(Arrays.toString(value));
         }
-        logger.info("+++user_access_log,ip=" + ip + ",url=" + path + ",ukey=" + ukey
+        logger.info("+++user_access_log,ip=" + ip + ",url=" + path 
                 + ",parameter=" + buffer);
         return true;
     
