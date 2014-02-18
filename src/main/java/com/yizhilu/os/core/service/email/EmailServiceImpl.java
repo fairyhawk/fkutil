@@ -21,64 +21,66 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-
 /**
  * 
- * @ClassName  EmailServiceImpl
+ * @ClassName EmailServiceImpl
  * @package com.fairyhawk.common.service
  * @description 邮件服务实现
- * @author  liuqinggang
+ * @author liuqinggang
  * @Create Date: 2013-3-14 下午7:14:41
- *
+ * 
  */
 @Service("emailService")
 public class EmailServiceImpl implements EmailService {
 
     @Autowired
-	private JavaMailSenderImpl javaMailSender;
+    private JavaMailSenderImpl javaMailSender;
 
     private static final Log logger = LogFactory.getLog(EmailServiceImpl.class);
-	
-	/**
-	 * 单人邮件
-	 */
-	@Override
-	public void sendMail(String mailto,String text, String title) throws Exception {
+
+    /**
+     * 单人邮件
+     */
+    @Override
+    public void sendMail(String mailto, String text, String title) throws Exception {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true,
+                "UTF-8");
         messageHelper.setFrom(new InternetAddress(javaMailSender.getUsername()));
         messageHelper.setSubject(title);
         messageHelper.setText(text, true);
         messageHelper.setTo(new InternetAddress(mailto));
         mimeMessage = messageHelper.getMimeMessage();
-        //javaMailSender.send(mimeMessage);
+        // javaMailSender.send(mimeMessage);
         EmailThread et = new EmailThread(mimeMessage);
         et.start();
 
     }
-	
+
     /**
-      *群发邮件
+     * 群发邮件
      */
     @Override
-    public void sendBatchMail(String[] mailto, String text, String title)  {
+    public void sendBatchMail(String[] mailto, String text, String title) {
         for (int i = 0; i < mailto.length; i++) {
             try {
                 sendMail(mailto[i], text, title);
             } catch (Exception e) {
-            	logger.error("+++ sendBatchMail error email:"+mailto[i]);
+                logger.error("+++ sendBatchMail error email:" + mailto[i]);
             }
         }
     }
 
     /**
-	 * 单人文件
-	 */
-	public void sendMailWithFile(String mailto,  String text, String title, String[] filePath) throws Exception {
+     * 单人文件
+     */
+    public void sendMailWithFile(String mailto, String text, String title,
+            String[] filePath) throws Exception {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true,
+                "UTF-8");
         messageHelper.setFrom(new InternetAddress(javaMailSender.getUsername()));
         messageHelper.setSubject(title);
         messageHelper.setText(text, true);
@@ -110,15 +112,19 @@ public class EmailServiceImpl implements EmailService {
         EmailThread et = new EmailThread(mimeMessage);
         et.start();
     }
+
     /**
-	 * 群发文件
-	 */
+     * 群发文件
+     */
     @Override
-    public void sendBatchMailWithFile(String[] mailto, String text, String title, String[] filePath) throws Exception {
+    public void sendBatchMailWithFile(String[] mailto, String text, String title,
+            String[] filePath) throws Exception {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-        messageHelper.setFrom(new InternetAddress(MimeUtility.encodeText(javaMailSender.getUsername())));
+        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true,
+                "UTF-8");
+        messageHelper.setFrom(new InternetAddress(MimeUtility.encodeText(javaMailSender
+                .getUsername())));
         messageHelper.setSubject(title);
         if (filePath != null) {
             BodyPart mdp = new MimeBodyPart();// 新建一个存放信件内容的BodyPart对象
@@ -158,17 +164,18 @@ public class EmailServiceImpl implements EmailService {
         et.start();
 
     }
-	
-	/**
-	 * 内部类发送邮件线程
-	 * @ClassName  EmailThread
-	 * @package com.fairyhawk.common.service
-	 * @description
-	 * @author  liuqinggang
-	 * @Create Date: 2013-3-14 下午7:27:12
-	 *
-	 */
-	class EmailThread extends Thread {
+
+    /**
+     * 内部类发送邮件线程
+     * 
+     * @ClassName EmailThread
+     * @package com.fairyhawk.common.service
+     * @description
+     * @author liuqinggang
+     * @Create Date: 2013-3-14 下午7:27:12
+     * 
+     */
+    class EmailThread extends Thread {
 
         private final MimeMessage mimeMessage;
 
@@ -182,5 +189,5 @@ public class EmailServiceImpl implements EmailService {
         }
 
     }
-	
+
 }

@@ -80,9 +80,9 @@ public class Arith {
 
     public static String mul(String v1, String v2) {
         BigDecimal b1 = new BigDecimal(v1);
-        b1=b1.setScale(2, RoundingMode.HALF_UP);
+        b1 = b1.setScale(2, RoundingMode.HALF_UP);
         BigDecimal b2 = new BigDecimal(v2);
-        
+
         return b1.multiply(b2).toString();
     }
 

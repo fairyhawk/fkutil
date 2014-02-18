@@ -69,7 +69,7 @@ public class WebUtils {
             cookie.setMaxAge(days * 24 * 60 * 60);
             // 设置路径（默认）
             cookie.setPath("/");
-            if (StringUtils.isNotEmpty(domain)) {//domain != null
+            if (StringUtils.isNotEmpty(domain)) {// domain != null
                 cookie.setDomain(domain);
             }
             // 把cookie放入响应中
@@ -93,7 +93,7 @@ public class WebUtils {
             if (cookies.length > 0) {
                 for (int i = 0; i < cookies.length; i++) {
                     if (key.equalsIgnoreCase(cookies[i].getName())) {
-                        if(StringUtils.isNotEmpty(cookies[i].getValue())){
+                        if (StringUtils.isNotEmpty(cookies[i].getValue())) {
                             resValue = cookies[i].getValue();
                         }
                     }
@@ -112,7 +112,7 @@ public class WebUtils {
     public static void deleteCookie(HttpServletRequest request,
             HttpServletResponse response, String name) {
         deleteCookieDomain(request, response, name, MYDOMAIN);
-      
+
     }
 
     /**
@@ -133,7 +133,7 @@ public class WebUtils {
                         // 销毁
                         Cookie ck = new Cookie(cookie.getName(), null);
                         ck.setPath("/");
-                        if (StringUtils.isNotEmpty(domain)) {//domain != null
+                        if (StringUtils.isNotEmpty(domain)) {// domain != null
                             cookie.setDomain(domain);
                         }
                         ck.setMaxAge(-1);
@@ -181,7 +181,7 @@ public class WebUtils {
             String value = (String) nameValues.get(name);
             // 生成新的cookie
             Cookie cookie = new Cookie(name, value);
-            if (StringUtils.isNotEmpty(domain)) {//domain != null
+            if (StringUtils.isNotEmpty(domain)) {// domain != null
                 cookie.setDomain(domain);
             }
             cookie.setSecure(false);
@@ -241,12 +241,12 @@ public class WebUtils {
      */
     public static void deleteAllCookie(HttpServletRequest request,
             HttpServletResponse response) {
-        System.out.println("++++del doami:"+MYDOMAIN);
-        deleteAllCookieDomain(request, response,MYDOMAIN);
+        System.out.println("++++del doami:" + MYDOMAIN);
+        deleteAllCookieDomain(request, response, MYDOMAIN);
     }
-    
+
     public static void deleteAllCookieDomain(HttpServletRequest request,
-            HttpServletResponse response,String domain) {
+            HttpServletResponse response, String domain) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (int i = 0; i < cookies.length; i++) {
@@ -254,7 +254,7 @@ public class WebUtils {
                 // 销毁
                 Cookie ck = new Cookie(cookie.getName(), null);
                 ck.setPath("/");
-                System.out.println("++cookie.getName():"+cookie.getName());
+                System.out.println("++cookie.getName():" + cookie.getName());
                 if (StringUtils.isNotEmpty(domain)) {
                     cookie.setDomain(domain);
                 }
@@ -263,7 +263,6 @@ public class WebUtils {
             }
         }
     }
-    
 
     // 获得IP地址
     public static String getIpAddr(HttpServletRequest request) {
@@ -360,7 +359,7 @@ public class WebUtils {
     }
 
     // IPUTIL********
-    
+
     public static String getAddressByIP(String ip) {
         String js = visitWeb("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip="
                 + ip);
@@ -380,7 +379,6 @@ public class WebUtils {
                 + city;
     }
 
-    
     public static String visitWeb(String urlStr) {
         URL url = null;
         HttpURLConnection httpConn = null;
@@ -429,7 +427,6 @@ public class WebUtils {
         }
     }
 
-    
     // IPUTIL********
 
     /**
@@ -467,15 +464,17 @@ public class WebUtils {
     public static String getUid(Long cusId, String pwd) throws Exception {
         return DESCoder.md5(DESCoder.encrypt(cusId + pwd));
     }
+
     /**
      * 替换掉html内容<>
+     * 
      * @param src
      * @return
      */
-    public static String replaceTagHTML(String src){
-        String regex="\\<(.+?)\\>";
-        if(StringUtils.isNotEmpty(src)){
-            return src.replaceAll(regex,  "");
+    public static String replaceTagHTML(String src) {
+        String regex = "\\<(.+?)\\>";
+        if (StringUtils.isNotEmpty(src)) {
+            return src.replaceAll(regex, "");
         }
         return "";
     }

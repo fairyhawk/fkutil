@@ -21,27 +21,27 @@ import com.yizhilu.os.core.util.PropertyUtil;
  */
 public class HessianServerProxyExporter extends HessianServiceExporter {
 
-	private static Logger logger = Logger.getLogger(HessianServerProxyExporter.class);
+    private static Logger logger = Logger.getLogger(HessianServerProxyExporter.class);
 
-	// 获取server端配置文件
-	PropertyUtil propertyUtil = PropertyUtil.getInstance("project");
-	public String hessianAuth = propertyUtil.getProperty("hessianAuth");
+    // 获取server端配置文件
+    PropertyUtil propertyUtil = PropertyUtil.getInstance("project");
+    public String hessianAuth = propertyUtil.getProperty("hessianAuth");
 
-	@Override
-	public void handleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    public void handleRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		logger.info("++++ hessian request clientIp:" + request.getRemoteAddr()// 请求IP
-				+ "++++requestData:" + request.getRequestURL());// 目标应用路径
-		String auth = request.getHeader("hessianAuth");
-		if (auth == null || !auth.equalsIgnoreCase(hessianAuth)) {
-			// 记录异常 非法请求 日志
-			logger.info("+++++hessianAuth->fail :" + request.getRemoteAddr()
-					+ "," + request.getRequestURL());
-			return;
-		}
-		super.handleRequest(request, response);
+        logger.info("++++ hessian request clientIp:" + request.getRemoteAddr()// 请求IP
+                + "++++requestData:" + request.getRequestURL());// 目标应用路径
+        String auth = request.getHeader("hessianAuth");
+        if (auth == null || !auth.equalsIgnoreCase(hessianAuth)) {
+            // 记录异常 非法请求 日志
+            logger.info("+++++hessianAuth->fail :" + request.getRemoteAddr() + ","
+                    + request.getRequestURL());
+            return;
+        }
+        super.handleRequest(request, response);
 
-	}
+    }
 
 }

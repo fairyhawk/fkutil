@@ -13,7 +13,6 @@ import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.yizhilu.os.core.entity.CoreConstant;
 import com.yizhilu.os.core.util.ObjectUtils;
 import com.yizhilu.os.core.util.web.WebUtils;
 
@@ -71,10 +70,10 @@ public class LoggerFilter extends HandlerInterceptorAdapter {
             }
             buffer.append(key).append(":").append(Arrays.toString(value));
         }
-        logger.info("+++user_access_log,ip=" + ip + ",url=" + path 
-                + ",parameter=" + buffer);
+        logger.info("+++user_access_log,ip=" + ip + ",url=" + path + ",parameter="
+                + buffer);
         return true;
-    
+
     }
 
 }

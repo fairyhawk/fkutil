@@ -118,5 +118,5 @@ public class RandomCodeController {
         int b = fc + random.nextInt(bc - fc);
         return new Color(r, g, b);
     }
-   
+
 }

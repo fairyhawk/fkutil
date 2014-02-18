@@ -11,24 +11,24 @@ public class PageEntity implements Serializable {
      */
     private static final long serialVersionUID = 3428610204086857703L;
 
-     /** 总数据条数 */
-    private int totalResultSize=0;
-    
+    /** 总数据条数 */
+    private int totalResultSize = 0;
+
     /** 总页数 */
-    private int totalPageSize=0;
-    
+    private int totalPageSize = 0;
+
     /** 每页条数 */
-    private int pageSize=10;
-    
+    private int pageSize = 10;
+
     /** 当前页码 */
-    private int currentPage=1;
-    
-    private int startRow=0; // 当前页在数据库中的起始行
-    
-    public PageEntity(){
-        
+    private int currentPage = 1;
+
+    private int startRow = 0; // 当前页在数据库中的起始行
+
+    public PageEntity() {
+
     }
-    
+
     public PageEntity(int _totalRows, int _pageSize) {
         totalResultSize = _totalRows;
         pageSize = _pageSize;
@@ -39,10 +39,10 @@ public class PageEntity implements Serializable {
         }
         currentPage = 1;
         startRow = 0;
-        
+
     }
-    public PageEntity(int currentPage,int _totalRows, int _pageSize)
-    {
+
+    public PageEntity(int currentPage, int _totalRows, int _pageSize) {
         int totalPages1 = _totalRows / _pageSize;
         int mod1 = _totalRows % _pageSize;
         totalResultSize = _totalRows;
@@ -50,20 +50,20 @@ public class PageEntity implements Serializable {
         if (mod1 > 0) {
             totalPages1++;
         }
-        if(currentPage>totalPages1){
-            currentPage=currentPage-1;
+        if (currentPage > totalPages1) {
+            currentPage = currentPage - 1;
         }
-        if (currentPage==0) {
+        if (currentPage == 0) {
             this.setStart(1);
-        }else{
+        } else {
             this.setStart(currentPage);
-        } 
+        }
         totalPageSize = totalResultSize / pageSize;
         int mod = totalResultSize % pageSize;
         if (mod > 0) {
             totalPageSize++;
-        }else{
-            if(currentPage==0){
+        } else {
+            if (currentPage == 0) {
                 currentPage = 1;
             }
         }
@@ -71,13 +71,13 @@ public class PageEntity implements Serializable {
 
     /** 是否首页 */
     @SuppressWarnings("unused")
-    private boolean first=false;
+    private boolean first = false;
     /** 是否尾页 */
     @SuppressWarnings("unused")
-    private boolean last=false;
-    
+    private boolean last = false;
+
     public boolean isFirst() {
-         return getCurrentPage()<=1;
+        return getCurrentPage() <= 1;
     }
 
     public void setFirst(boolean first) {
@@ -85,26 +85,30 @@ public class PageEntity implements Serializable {
     }
 
     public boolean isLast() {
-         return getCurrentPage()>=getTotalPageSize();
+        return getCurrentPage() >= getTotalPageSize();
     }
+
     public void setLast(boolean last) {
         this.last = last;
     }
 
-    /**获得页码
-     * List<Integer>
+    /**
+     * 获得页码 List<Integer>
+     * 
      * @return
      */
-    public List<Integer> getPageNums(){
+    public List<Integer> getPageNums() {
         List<Integer> returnList = new ArrayList<Integer>();
-        int startNum = getCurrentPage()-getPageSize()<1?1:getCurrentPage()-getPageSize();
-        int endNum  = getCurrentPage()+getPageSize()>getTotalPageSize()?getTotalPageSize():getCurrentPage()+getPageSize();
-        for(int i=startNum;i<=endNum;i++){
+        int startNum = getCurrentPage() - getPageSize() < 1 ? 1 : getCurrentPage()
+                - getPageSize();
+        int endNum = getCurrentPage() + getPageSize() > getTotalPageSize() ? getTotalPageSize()
+                : getCurrentPage() + getPageSize();
+        for (int i = startNum; i <= endNum; i++) {
             returnList.add(i);
         }
         return returnList;
     }
-    
+
     public int getCurrentPage() {
         return currentPage;
     }
@@ -154,19 +158,22 @@ public class PageEntity implements Serializable {
     public void setTotalPageSize(int totalPageSize) {
         this.totalPageSize = totalPageSize;
     }
+
     public void setStart(int currentPage) {
         this.currentPage = currentPage;
         startRow = (currentPage - 1) * pageSize;
     }
+
     public int getStartRow() {
         return startRow;
     }
+
     public static PageEntity getPageEntity(int currentPage, int totalRows, int pageSize) {
         PageEntity pager = new PageEntity(totalRows, pageSize);
-        if (currentPage==0) {
+        if (currentPage == 0) {
             pager.setStart(1);
         } else {
-                pager.setStart(currentPage);
+            pager.setStart(currentPage);
         }
         return pager;
     }

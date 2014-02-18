@@ -17,16 +17,16 @@ import com.yizhilu.os.core.util.PropertyUtil;
  */
 public class HessianClientProxyFactory extends HessianProxyFactory {
 
-	PropertyUtil propertyUtil = PropertyUtil.getInstance("project");
+    PropertyUtil propertyUtil = PropertyUtil.getInstance("project");
 
-	private final String hessianAuth = propertyUtil.getProperty("hessianAuth");
+    private final String hessianAuth = propertyUtil.getProperty("hessianAuth");
 
-	@Override
-	protected URLConnection openConnection(URL url) throws IOException {
-		URLConnection conn = super.openConnection(url);
-		//添加验证信息，服务端需验证是否相等，防止非法调用
-		conn.setRequestProperty("hessianAuth", hessianAuth);
-		return conn;
-	}
+    @Override
+    protected URLConnection openConnection(URL url) throws IOException {
+        URLConnection conn = super.openConnection(url);
+        // 添加验证信息，服务端需验证是否相等，防止非法调用
+        conn.setRequestProperty("hessianAuth", hessianAuth);
+        return conn;
+    }
 
 }

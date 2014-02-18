@@ -36,6 +36,7 @@ public abstract class GenericReadDaoImpl implements GenericDao {
     public void setSqlSession1(SqlSession sqlSession) {
         this.sqlSession = sqlSession;
     }
+
     @Override
     public Long insert(String sqlKey, Object object) {
         return Long.valueOf(this.getSqlSession().insert(sqlKey, object));
@@ -45,6 +46,7 @@ public abstract class GenericReadDaoImpl implements GenericDao {
     public Long delete(String sqlKey, Object object) {
         return Long.valueOf(this.getSqlSession().delete(sqlKey, object));
     }
+
     @Override
     public Long update(String key, Object object) {
         return Long.valueOf(getSqlSession().update(key, object));
@@ -52,13 +54,14 @@ public abstract class GenericReadDaoImpl implements GenericDao {
 
     @Override
     public <T> T selectOne(String sqlKey, Object params) {
-        T selectOne =null;
-        List<T> list= selectList(sqlKey, params);
-        if(!ObjectUtils.isNull(list)){
-            selectOne =  list.get(0);
+        T selectOne = null;
+        List<T> list = selectList(sqlKey, params);
+        if (!ObjectUtils.isNull(list)) {
+            selectOne = list.get(0);
         }
         return selectOne;
     }
+
     @Override
     public <T> List<T> selectList(String sqlKey, Object params) {
         return this.getSqlSession().selectList(sqlKey, params);
@@ -70,8 +73,7 @@ public abstract class GenericReadDaoImpl implements GenericDao {
      * @return
      */
     @Override
-    public <T> List<T> queryForListPage(String sqlKey, Object params,
-            PageEntity page) {
+    public <T> List<T> queryForListPage(String sqlKey, Object params, PageEntity page) {
 
         /**
          * 分页时需要2个sql。在正常sql后面加pageCount为计算count的sql
@@ -90,14 +92,12 @@ public abstract class GenericReadDaoImpl implements GenericDao {
 
         if (objectscount == null || objectscount == 0) {
             page.setTotalResultSize(0);
-            int totalPageSize = (page.getTotalResultSize() - 1)
-                    / page.getPageSize() + 1;
+            int totalPageSize = (page.getTotalResultSize() - 1) / page.getPageSize() + 1;
             page.setTotalPageSize(totalPageSize);
             return null;
         } else {
             page.setTotalResultSize(objectscount);
-            int totalPageSize = (page.getTotalResultSize() - 1)
-                    / page.getPageSize() + 1;
+            int totalPageSize = (page.getTotalResultSize() - 1) / page.getPageSize() + 1;
             page.setTotalPageSize(totalPageSize);
             return this.selectList(sqlKey, map);
         }

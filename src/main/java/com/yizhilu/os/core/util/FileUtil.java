@@ -251,19 +251,18 @@ public class FileUtil {
     public static JsonObject saveCutImage(String photoPath, int imageWidth,
             int imageHeight, int cutLeft, int cutTop, int dropWidth, int dropHeight) {
         JsonObject obj = new JsonObject();
-        //新文件名
+        // 新文件名
         String newPhotoName = getRandomFileNameString(photoPath);
         Rectangle rec = createPhotoCutRec(imageWidth, imageHeight, cutLeft, cutTop);
         photoPath = photoPath.replace(importroot, rootpath);
         File tempPic = new File(photoPath);
-       //新文件路径
-        newPhotoName=photoPath.substring(0, photoPath.lastIndexOf("/"))
-                + newPhotoName;
+        // 新文件路径
+        newPhotoName = photoPath.substring(0, photoPath.lastIndexOf("/")) + newPhotoName;
         File file = new File(newPhotoName);
         try {
             saveSubImage(tempPic, file, rec, new int[] { imageWidth, imageHeight,
                     cutLeft, cutTop, dropWidth, dropHeight });
-            //返回的地址
+            // 返回的地址
             obj.addProperty("url", newPhotoName.replace(rootpath, importroot));
             obj.addProperty("error", 0);
         } catch (IOException e) {
@@ -271,7 +270,7 @@ public class FileUtil {
             obj.addProperty("error", -1);
             obj.addProperty("message", "上传文件大小不能超过5M");
         }
-        
+
         return obj;
     };
 

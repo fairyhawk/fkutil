@@ -38,7 +38,7 @@ public class MemCacheServiceImpl implements MemCacheService {
     public static final String ENCODING = "UTF-8";
 
     public static String isUse = PropertiesReader.getValue(CACHE_PROP_FILE, "isUse");
-    
+
     // 日志
     private static Log log = LogFactory.getLog(MemCacheServiceImpl.class);
 
@@ -106,9 +106,9 @@ public class MemCacheServiceImpl implements MemCacheService {
     }
 
     public static MemCacheService getInstance() {
-        if("1".equalsIgnoreCase(isUse)){
+        if ("1".equalsIgnoreCase(isUse)) {
             return getInstance(CACHE_PROP_FILE);
-        }else{
+        } else {
             return null;
         }
     }
@@ -199,7 +199,7 @@ public class MemCacheServiceImpl implements MemCacheService {
             }, AddrUtil.getAddresses(server2));
 
         } catch (IOException e) {
-            log.error("DefaultConnectionFactory memcache error:",e);
+            log.error("DefaultConnectionFactory memcache error:", e);
         }
         // 使用Utf-8编码
         SerializingTranscoder x1 = (SerializingTranscoder) mc1.getTranscoder();
@@ -515,8 +515,9 @@ public class MemCacheServiceImpl implements MemCacheService {
     public boolean set(String key, Object value, int exp) {
         // mc1.delete(key);
         // mc2.delete(key);
-        if(value==null) return false;
-        
+        if (value == null)
+            return false;
+
         boolean ret = false;
         Future<Boolean> f = mc1.set(key, exp, value);
         Future<Boolean> f2 = mc2.set(key, exp, value);
@@ -542,8 +543,7 @@ public class MemCacheServiceImpl implements MemCacheService {
             f.cancel(false);
             f2.cancel(false);
         }
-        log.info("MemCacheServiceImpl.set,key=" + key + ",value="
-                + value.getClass());
+        log.info("MemCacheServiceImpl.set,key=" + key + ",value=" + value.getClass());
         return ret;
     }
 }
