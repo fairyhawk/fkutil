@@ -40,6 +40,44 @@ public class WebUtils {
     public static String MYDOMAIN = "";
 
     /**
+     * 设置cookie分钟
+     * 
+     * @param response
+     * @param key
+     * @param value
+     * @param minuts
+     *            分钟
+     */
+    public static void setCookieMinute(HttpServletResponse response, String key,
+            String value, int minuts) {
+        setCookieMinuteDomain(response, key, value, minuts, MYDOMAIN);
+    }
+
+    /**
+     * 增加或修改cookie
+     * 
+     * @param response
+     * @param key
+     * @param value
+     * @param days
+     */
+    public static void setCookieMinuteDomain(HttpServletResponse response, String key,
+            String value, int minuts, String domain) {
+        if (key != null && value != null) {
+            Cookie cookie = new Cookie(key, value);
+            // 设置有效日期
+            cookie.setMaxAge(minuts * 60);
+            // 设置路径（默认）
+            cookie.setPath("/");
+            if (StringUtils.isNotEmpty(domain)) {// domain != null
+                cookie.setDomain(domain);
+            }
+            // 把cookie放入响应中
+            response.addCookie(cookie);
+        }
+    }
+
+    /**
      * 增加或修改cookie
      * 
      * @param response
