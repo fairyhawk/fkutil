@@ -33,8 +33,8 @@ public class FileUtil {
     // 读取配置文件类
     public static PropertyUtil propertyUtil = PropertyUtil.getInstance("project");
 
-    private static final String pathfix = "";// propertyUtil.getProperty("file.pathfix");//
-                                             // 统一传到pathfix下
+    private static final String pathfix = propertyUtil.getProperty("file.pathfix");//
+    // 统一传到pathfix下
 
     private static final String importroot = propertyUtil.getProperty("import.root");
     private static final String rootpath = propertyUtil.getProperty("file.root");
@@ -226,8 +226,8 @@ public class FileUtil {
         String savePath = propertyUtil.getProperty("file.root") + pathfix + "/"
                 + tempPath + "/" + base + "/" + param + "/" + dateStr;
         // 拼凑 url
-        String urlPath = "/" + pathfix + "/" + "+tempPath" + "/" + base + "/" + param
-                + "/" + dateStr;
+        String urlPath = "/" + pathfix + "/" + tempPath + "/" + base + "/" + param + "/"
+                + dateStr;
 
         String[] result = new String[] { savePath, urlPath };
         return result;
@@ -253,17 +253,20 @@ public class FileUtil {
         JsonObject obj = new JsonObject();
         // 新文件名
         String newPhotoName = getRandomFileNameString(photoPath);
-        Rectangle rec = createPhotoCutRec(imageWidth, imageHeight, cutLeft, cutTop);
+        Rectangle rec = createPhotoCutRec(imageWidth, imageHeight, cutLeft, cutTop,
+                dropWidth, dropHeight);
         photoPath = photoPath.replace(importroot, rootpath);
         File tempPic = new File(photoPath);
         // 新文件路径
         newPhotoName = photoPath.substring(0, photoPath.lastIndexOf("/")) + newPhotoName;
+        newPhotoName=newPhotoName.replace(tempPath, "customer");
         File file = new File(newPhotoName);
         try {
+
             saveSubImage(tempPic, file, rec, new int[] { imageWidth, imageHeight,
                     cutLeft, cutTop, dropWidth, dropHeight });
             // 返回的地址
-            obj.addProperty("url", newPhotoName.replace(rootpath, importroot));
+            obj.addProperty("url", newPhotoName.replace(rootpath, ""));
             obj.addProperty("error", 0);
         } catch (IOException e) {
             e.printStackTrace();
@@ -275,33 +278,34 @@ public class FileUtil {
     };
 
     private static Rectangle createPhotoCutRec(int imageWidth, int imageHeight,
-            int cutLeft, int cutTop) {
+            int cutLeft, int cutTop, int dropWidth, int dropHeight) {
         int recX = cutLeft > 0 ? cutLeft : 0;
         int recY = cutTop > 0 ? cutTop : 0;
-        int recWidth = CUS_PHOTO_WIDTH;
-        int recHieght = CUS_PHOTO_HEIGHT;
+        int recWidth = dropWidth;
+        int recHieght = dropHeight;
         if (cutLeft < 0) {
             // 注意curLeft 是负数
-            if (imageWidth - cutLeft > CUS_PHOTO_WIDTH) {
-                recWidth = CUS_PHOTO_WIDTH + cutLeft;
+            if (imageWidth - cutLeft > dropWidth) {
+                recWidth = dropWidth + cutLeft;
             } else {
                 recWidth = imageWidth;
             }
         } else {
-            if (imageWidth - cutLeft < CUS_PHOTO_WIDTH) {
+            if (imageWidth - cutLeft < dropWidth) {
                 recWidth = imageWidth - cutLeft;
             }
         }
 
         if (cutTop < 0) {
             // 注意curLeft 是负数
-            if (imageHeight - cutTop > CUS_PHOTO_HEIGHT) {
-                recHieght = CUS_PHOTO_HEIGHT + cutTop;
+            if (imageHeight - cutTop > dropHeight) {
+                recHieght = dropHeight + cutTop;
             } else {
                 recHieght = imageHeight;
             }
         } else {
-            if (imageHeight - cutTop < CUS_PHOTO_HEIGHT) {
+
+            if (imageHeight - cutTop < dropHeight) {
                 recHieght = imageHeight - cutTop;
             }
         }
