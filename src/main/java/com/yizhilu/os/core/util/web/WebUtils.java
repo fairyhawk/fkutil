@@ -48,8 +48,7 @@ public class WebUtils {
      * @param minuts
      *            分钟
      */
-    public static void setCookieMinute(HttpServletResponse response, String key,
-            String value, int minuts) {
+    public static void setCookieMinute(HttpServletResponse response, String key, String value, int minuts) {
         setCookieMinuteDomain(response, key, value, minuts, MYDOMAIN);
     }
 
@@ -61,8 +60,7 @@ public class WebUtils {
      * @param value
      * @param days
      */
-    public static void setCookieMinuteDomain(HttpServletResponse response, String key,
-            String value, int minuts, String domain) {
+    public static void setCookieMinuteDomain(HttpServletResponse response, String key, String value, int minuts, String domain) {
         if (key != null && value != null) {
             Cookie cookie = new Cookie(key, value);
             // 设置有效日期
@@ -85,8 +83,7 @@ public class WebUtils {
      * @param value
      * @param days
      */
-    public static void setCookie(HttpServletResponse response, String key, String value,
-            int days) {
+    public static void setCookie(HttpServletResponse response, String key, String value, int days) {
         setCookie(response, key, value, days, MYDOMAIN);
     }
 
@@ -98,8 +95,7 @@ public class WebUtils {
      * @param value
      * @param days
      */
-    public static void setCookie(HttpServletResponse response, String key, String value,
-            int days, String domain) {
+    public static void setCookie(HttpServletResponse response, String key, String value, int days, String domain) {
 
         if (key != null && value != null) {
             Cookie cookie = new Cookie(key, value);
@@ -147,8 +143,7 @@ public class WebUtils {
      * @param request
      * @param response
      */
-    public static void deleteCookie(HttpServletRequest request,
-            HttpServletResponse response, String name) {
+    public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
         deleteCookieDomain(request, response, name, MYDOMAIN);
 
     }
@@ -160,19 +155,17 @@ public class WebUtils {
      * @param response
      * @param
      */
-    public static void deleteCookieDomain(HttpServletRequest request,
-            HttpServletResponse response, String name, String domain) {
+    public static void deleteCookieDomain(HttpServletRequest request, HttpServletResponse response, String name, String domain) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             if (cookies.length > 0) {
                 for (int i = 0; i < cookies.length; i++) {
                     if (name.equalsIgnoreCase(cookies[i].getName())) {
-                        Cookie cookie = cookies[i];
                         // 销毁
-                        Cookie ck = new Cookie(cookie.getName(), null);
+                        Cookie ck = new Cookie(cookies[i].getName(), null);
                         ck.setPath("/");
                         if (StringUtils.isNotEmpty(domain)) {// domain != null
-                            cookie.setDomain(domain);
+                            ck.setDomain(domain);
                         }
                         ck.setMaxAge(-1);
                         response.addCookie(ck);
@@ -193,8 +186,7 @@ public class WebUtils {
      * @param days
      *            设置cookie的有效期
      */
-    public static void createCookieFromMap(HttpServletResponse response,
-            Hashtable<String, String> nameValues, int days) {
+    public static void createCookieFromMap(HttpServletResponse response, Hashtable<String, String> nameValues, int days) {
         createCookieFromMapDomain(response, nameValues, days, MYDOMAIN);
     }
 
@@ -210,8 +202,7 @@ public class WebUtils {
      * @param domain
      *            设置的域名
      */
-    public static void createCookieFromMapDomain(HttpServletResponse response,
-            Hashtable<String, String> nameValues, int days, String domain) {
+    public static void createCookieFromMapDomain(HttpServletResponse response, Hashtable<String, String> nameValues, int days, String domain) {
         Set<String> set = nameValues.keySet();
         Iterator<String> it = set.iterator();
         for (; it.hasNext();) {
@@ -277,14 +268,11 @@ public class WebUtils {
      * @param request
      * @param response
      */
-    public static void deleteAllCookie(HttpServletRequest request,
-            HttpServletResponse response) {
-        System.out.println("++++del doami:" + MYDOMAIN);
+    public static void deleteAllCookie(HttpServletRequest request, HttpServletResponse response) {
         deleteAllCookieDomain(request, response, MYDOMAIN);
     }
 
-    public static void deleteAllCookieDomain(HttpServletRequest request,
-            HttpServletResponse response, String domain) {
+    public static void deleteAllCookieDomain(HttpServletRequest request, HttpServletResponse response, String domain) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (int i = 0; i < cookies.length; i++) {
@@ -292,9 +280,8 @@ public class WebUtils {
                 // 销毁
                 Cookie ck = new Cookie(cookie.getName(), null);
                 ck.setPath("/");
-                System.out.println("++cookie.getName():" + cookie.getName());
                 if (StringUtils.isNotEmpty(domain)) {
-                    cookie.setDomain(domain);
+                    ck.setDomain(domain);
                 }
                 ck.setMaxAge(0);
                 response.addCookie(ck);
@@ -306,16 +293,13 @@ public class WebUtils {
     public static String getIpAddr(HttpServletRequest request) {
         String ipAddress = null;
         ipAddress = request.getHeader("x-forwarded-for");
-        if (ipAddress == null || ipAddress.length() == 0
-                || "unknown".equalsIgnoreCase(ipAddress)) {
+        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getHeader("Proxy-Client-IP");
         }
-        if (ipAddress == null || ipAddress.length() == 0
-                || "unknown".equalsIgnoreCase(ipAddress)) {
+        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getHeader("WL-Proxy-Client-IP");
         }
-        if (ipAddress == null || ipAddress.length() == 0
-                || "unknown".equalsIgnoreCase(ipAddress)) {
+        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getRemoteAddr();
             if (ipAddress.equals("127.0.0.1")) {
                 // 根据网卡取本机配置的IP
@@ -377,8 +361,7 @@ public class WebUtils {
     }
 
     // encodeURL
-    public static String encodeURL(String url, String encode)
-            throws UnsupportedEncodingException {
+    public static String encodeURL(String url, String encode) throws UnsupportedEncodingException {
         StringBuilder sb = new StringBuilder();
         StringBuilder noAsciiPart = new StringBuilder();
         for (int i = 0; i < url.length(); i++) {
@@ -399,22 +382,18 @@ public class WebUtils {
     // IPUTIL********
 
     public static String getAddressByIP(String ip) {
-        String js = visitWeb("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip="
-                + ip);
+        String js = visitWeb("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=" + ip);
         JsonParser jsonParser = new JsonParser();
         JsonObject jo = jsonParser.parse(js.substring(21)).getAsJsonObject();
         String province = "";
         String city = "";
         try {
-            province = jo.get("province") == null ? "" : URLDecoder.decode(
-                    jo.get("province").toString(), "UTF-8");
-            city = jo.get("city") == null ? "" : URLDecoder.decode(jo.get("city")
-                    .toString(), "UTF-8");
+            province = jo.get("province") == null ? "" : URLDecoder.decode(jo.get("province").toString(), "UTF-8");
+            city = jo.get("city") == null ? "" : URLDecoder.decode(jo.get("city").toString(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return (province.equals("") || province.equals(city)) ? city : province + " "
-                + city;
+        return (province.equals("") || province.equals(city)) ? city : province + " " + city;
     }
 
     public static String visitWeb(String urlStr) {
@@ -426,8 +405,7 @@ public class WebUtils {
             httpConn = (HttpURLConnection) url.openConnection();
             HttpURLConnection.setFollowRedirects(true);
             httpConn.setRequestMethod("GET");
-            httpConn.setRequestProperty("User-Agent",
-                    "Mozilla/4.0(compatible;MSIE 6.0;Windows 2000)");
+            httpConn.setRequestProperty("User-Agent", "Mozilla/4.0(compatible;MSIE 6.0;Windows 2000)");
             in = httpConn.getInputStream();
             return convertStreamToString(in);
         } catch (MalformedURLException e) {
@@ -451,8 +429,7 @@ public class WebUtils {
             StringBuilder sb = new StringBuilder();
             String line;
             try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is,
-                        "UTF-8"));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
                 while ((line = reader.readLine()) != null) {
                     sb.append(line).append("\n");
                 }
@@ -482,11 +459,7 @@ public class WebUtils {
         while (parNames.hasMoreElements()) {
             String parName = parNames.nextElement().toString();
             try {
-                sbUrlParms
-                        .append(parName)
-                        .append("=")
-                        .append(URLEncoder.encode(request.getParameter(parName), "UTF-8"))
-                        .append("&");
+                sbUrlParms.append(parName).append("=").append(URLEncoder.encode(request.getParameter(parName), "UTF-8")).append("&");
             } catch (UnsupportedEncodingException e) {
                 return "";
             }
@@ -495,8 +468,7 @@ public class WebUtils {
     }
 
     public static String getUkey(Long cusId, String pwd) throws Exception {
-        return DESCoder.md5(DESCoder.encrypt(cusId + pwd)
-                + DESCoder.encrypt(DESCoder.SECONDKEY));
+        return DESCoder.md5(DESCoder.encrypt(cusId + pwd) + DESCoder.encrypt(DESCoder.SECONDKEY));
     }
 
     public static String getUid(Long cusId, String pwd) throws Exception {
