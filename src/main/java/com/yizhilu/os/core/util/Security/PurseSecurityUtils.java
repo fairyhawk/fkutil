@@ -60,7 +60,7 @@ public class PurseSecurityUtils {
      *            解密后原文
      * @return
      */
-    public static String decryption(String value, String key) {
+    public static String decryption(String value, String key) throws Exception {
         return cryptUtil.decryptDes(value, getKey(key));
     }
 
@@ -169,4 +169,17 @@ public class PurseSecurityUtils {
                 && password.length() <= 16;
         return flag;
     }
+    public static void main(String[] args) {
+        try {
+        String pas="111111";
+        String key="5nf4F1A70361U90L0pcE07086046mV3n6xR2101336ACet240H4W74589f83";
+        System.out.println(secrect(pas,key));
+        String ss="axl3rEfq1tg=";
+        System.out.println(decryption("axl3rEfq1tg=", key));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
