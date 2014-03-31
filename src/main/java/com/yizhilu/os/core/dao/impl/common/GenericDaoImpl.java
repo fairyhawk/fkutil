@@ -92,7 +92,7 @@ public abstract class GenericDaoImpl implements GenericDao {
 
         if (objectscount == null || objectscount == 0) {
             page.setTotalResultSize(0);
-            int totalPageSize = (page.getTotalResultSize() - 1) / page.getPageSize() + 1;
+            int totalPageSize = 0;
             page.setTotalPageSize(totalPageSize);
             return null;
         } else {

@@ -1,5 +1,7 @@
 package com.yizhilu.os.core.util;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Enumeration;
 import java.util.MissingResourceException;
 import java.util.Properties;
@@ -52,4 +54,34 @@ public class PropertiesReader {
         return properties;
     }
 
+    /**
+     * 取得指定properties文件的指定key的value
+     * 
+     * @param file_name
+     *            properties文件的名字（没有扩展名）
+     * @param key
+     *            所指定的key
+     * @return 指定key对应的value值
+     * @throws MissingResourceException
+     *             当没有这个properties文件，或该文件中不存在这个key时
+     */
+    public static void setValue(String file_name, String key, String value) {
+        try {
+            Properties properties = new Properties();
+            PropertiesReader propertiesReader = new PropertiesReader();
+            String staticPath = propertiesReader.getClass().getClassLoader()
+                    .getResource("").getPath();
+            String file_name_path = staticPath + file_name;
+            FileInputStream in = new FileInputStream(file_name_path);
+            properties.load(in);
+            FileOutputStream fis = new FileOutputStream(file_name_path);// 属性文件输入流
+            properties.setProperty(key, value);
+            properties.store(fis, file_name);
+            in.close();
+            fis.close();// 关闭流
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
