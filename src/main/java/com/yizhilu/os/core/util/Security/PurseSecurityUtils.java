@@ -17,12 +17,18 @@ public class PurseSecurityUtils {
 
     private static CryptUtil cryptUtil = new CryptUtilImpl();
 
+    private static final String publickey = "GTUqysMnTkUcKP3ouLgyrahQ";
+
     public static CryptUtil getCrypt() {
         return cryptUtil;
     }
 
     // 24位加密
     private final static int count = 24;
+
+    public static String getKey(String key) {
+        return key.substring(0, count);
+    }
 
     /**
      * 数据签名
@@ -39,7 +45,7 @@ public class PurseSecurityUtils {
     }
 
     /**
-     * 将报文数据加密
+     * 将报文数据加密 des3 后base64
      * 
      * @param value
      *            报文加密后的字符串
@@ -49,12 +55,8 @@ public class PurseSecurityUtils {
         return cryptUtil.cryptDes(value, getKey(key));
     }
 
-    public static String getKey(String key) {
-        return key.substring(0, count);
-    }
-
     /**
-     * 将报文数据解密
+     * 将报文数据解密 des3 后base64
      * 
      * @param value
      *            解密后原文
@@ -114,6 +116,7 @@ public class PurseSecurityUtils {
         StringBuffer sb = new StringBuffer();
         long time = System.currentTimeMillis();
         UUID uuid = UUID.randomUUID();
+        System.out.println(uuid);
         String uu = uuid.toString().split("-")[0];
         sb.append(prefix);
         sb.append(time);
@@ -122,64 +125,37 @@ public class PurseSecurityUtils {
         return sb.toString();
     }
 
-    public static boolean isJointMobileNumber(String mobileNumber) {
-        String pattern = "^(1([0-9]{10}))$";
-        return mobileNumber.matches(pattern);
-    }
-
     /**
-     * 判断手机号
-     */
-    public static boolean isJointUserLoginName(String mobileNumber) {
-        // 判断该用户是否是 手机用户
-        return isJointMobileNumber(mobileNumber);
-    }
-
-    /**
-     * 验证邮箱
+     * 加密 des加密
      * 
+     * @param key
+     * @param data
+     * @return
+     */
+    public static String encryptToHex(String data) {
+        // des加密
+        return Des3Encryption.encryptToHex(getKey(publickey), data);
+    }
+
+    /**
+     * 解密 des加密的
+     * 
+     * @param key
      * @param value
-     * @param length
-     *            邮箱长度 默认不超过40
      * @return
      */
-    public static boolean checkEmail(String value, int length) {
-        if (length == 0) {
-            length = 40;
-        }
-        return value.matches("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*")
-                && value.length() <= length;
+    public static String decryptFromHex(String value) throws Exception {
+        return Des3Encryption.decryptFromHex(getKey(publickey), value);
     }
 
-    public static String getRandomNumber(int i) {
-        StringBuilder sb = new StringBuilder(System.currentTimeMillis() + "");
-        String str = sb.reverse().substring(0, i).toString();
-        return str;
-    }
-
-    /**
-     * 验证字符是否为6-16为字符、数字或下划线组成
-     * 
-     * @param password
-     * @return
-     */
-    public static boolean isPasswordAvailable(String password) {
-        String partten = "^[_0-9a-zA-Z]{3,}$";
-        boolean flag = password.matches(partten) && password.length() >= 6
-                && password.length() <= 16;
-        return flag;
-    }
     public static void main(String[] args) {
         try {
-        String pas="111111";
-        String key="5nf4F1A70361U90L0pcE07086046mV3n6xR2101336ACet240H4W74589f83";
-        System.out.println(secrect(pas,key));
-        String ss="axl3rEfq1tg=";
-        System.out.println(decryption("axl3rEfq1tg=", key));
+            String pas = "uid:10987";
+            String jiamihou =encryptToHex(pas); //Des3Encryption.encryptToHex(publickey, pas);
+            System.out.println(jiamihou);
+            System.out.println(decryptFromHex(jiamihou));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
-
-

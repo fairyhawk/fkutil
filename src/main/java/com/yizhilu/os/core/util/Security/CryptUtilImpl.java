@@ -5,6 +5,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+import com.yizhilu.os.core.util.StringUtils;
+
 /**
  * 
  * @ClassName com.yizhilu.os.core.util.Security.CryptUtilImpl
@@ -96,7 +98,7 @@ public class CryptUtilImpl implements CryptUtil {
      */
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        String source = "12345678";
+        String source = StringUtils.getRandStr(60);
         String key = "123456781234567812345678";
         CryptUtilImpl impl = new CryptUtilImpl();
         String des = impl.cryptDes(source, key);

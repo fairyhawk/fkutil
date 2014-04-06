@@ -1,8 +1,12 @@
 package com.yizhilu.os.core.util;
 
 import java.awt.Rectangle;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -195,8 +199,7 @@ public class FileUtil {
             param = "common";// 临时，未传的项目统一到common目录下
         }
         // 拼凑 存储物理路径
-        String savePath = propertyUtil.getProperty("file.root") + pathfix + "/" + base
-                + "/" + param + "/" + dateStr;
+        String savePath = propertyUtil.getProperty("file.root") + pathfix + "/" + base + "/" + param + "/" + dateStr;
         // 拼凑 url
         String urlPath = "/" + pathfix + "/" + base + "/" + param + "/" + dateStr;
 
@@ -223,11 +226,9 @@ public class FileUtil {
             param = "common";// 临时，未传的项目统一到common目录下
         }
         // 拼凑 存储物理路径
-        String savePath = propertyUtil.getProperty("file.root") + pathfix + "/"
-                + tempPath + "/" + base + "/" + param + "/" + dateStr;
+        String savePath = propertyUtil.getProperty("file.root") + pathfix + "/" + tempPath + "/" + base + "/" + param + "/" + dateStr;
         // 拼凑 url
-        String urlPath = "/" + pathfix + "/" + tempPath + "/" + base + "/" + param + "/"
-                + dateStr;
+        String urlPath = "/" + pathfix + "/" + tempPath + "/" + base + "/" + param + "/" + dateStr;
 
         String[] result = new String[] { savePath, urlPath };
         return result;
@@ -248,23 +249,20 @@ public class FileUtil {
      *            顶 坐标
      * @return
      */
-    public static JsonObject saveCutImage(String photoPath, int imageWidth,
-            int imageHeight, int cutLeft, int cutTop, int dropWidth, int dropHeight) {
+    public static JsonObject saveCutImage(String photoPath, int imageWidth, int imageHeight, int cutLeft, int cutTop, int dropWidth, int dropHeight) {
         JsonObject obj = new JsonObject();
         // 新文件名
         String newPhotoName = getRandomFileNameString(photoPath);
-        Rectangle rec = createPhotoCutRec(imageWidth, imageHeight, cutLeft, cutTop,
-                dropWidth, dropHeight);
+        Rectangle rec = createPhotoCutRec(imageWidth, imageHeight, cutLeft, cutTop, dropWidth, dropHeight);
         photoPath = photoPath.replace(importroot, rootpath);
         File tempPic = new File(photoPath);
         // 新文件路径
         newPhotoName = photoPath.substring(0, photoPath.lastIndexOf("/")) + newPhotoName;
-        newPhotoName=newPhotoName.replace(tempPath, "customer");
+        newPhotoName = newPhotoName.replace(tempPath, "customer");
         File file = new File(newPhotoName);
         try {
 
-            saveSubImage(tempPic, file, rec, new int[] { imageWidth, imageHeight,
-                    cutLeft, cutTop, dropWidth, dropHeight });
+            saveSubImage(tempPic, file, rec, new int[] { imageWidth, imageHeight, cutLeft, cutTop, dropWidth, dropHeight });
             // 返回的地址
             obj.addProperty("url", newPhotoName.replace(rootpath, ""));
             obj.addProperty("error", 0);
@@ -277,8 +275,7 @@ public class FileUtil {
         return obj;
     };
 
-    private static Rectangle createPhotoCutRec(int imageWidth, int imageHeight,
-            int cutLeft, int cutTop, int dropWidth, int dropHeight) {
+    private static Rectangle createPhotoCutRec(int imageWidth, int imageHeight, int cutLeft, int cutTop, int dropWidth, int dropHeight) {
         int recX = cutLeft > 0 ? cutLeft : 0;
         int recY = cutTop > 0 ? cutTop : 0;
         int recWidth = dropWidth;
@@ -312,8 +309,70 @@ public class FileUtil {
         return new Rectangle(recX, recY, recWidth, recHieght);
     }
 
-    private static void saveSubImage(File srcImageFile, File descDir, Rectangle rect,
-            int[] intParms) throws IOException {
+    private static void saveSubImage(File srcImageFile, File descDir, Rectangle rect, int[] intParms) throws IOException {
         ImageHelper.cut(srcImageFile, descDir, rect, intParms);
+    }
+    /**
+     * 读取文件内容
+     * @param path
+     * @return
+     */
+    public static String getFileContent(String path) {
+        File myFile = new File(path);
+        if (!myFile.exists()) {
+            System.err.println("Can't Find " + path);
+        }
+        BufferedReader in = null;
+        StringBuilder sb = new StringBuilder();
+        try {
+            InputStreamReader read = new InputStreamReader(new FileInputStream(myFile), "UTF-8");
+            in = new BufferedReader(read);
+            String str;
+            while ((str = in.readLine()) != null) {
+                sb.append(str);
+            }
+
+        } catch (IOException e) {
+            e.getStackTrace();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return sb.toString();
+    }
+    /**
+     * 文件写入
+     * @param content
+     * @param path
+     * @return
+     */
+    public static File writeFileContent(String content, String path) {
+        File file = new File(path);
+        FileOutputStream fileout = null;
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            fileout = new FileOutputStream(file);
+            fileout.write(content.getBytes("utf-8"));
+            fileout.flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (fileout != null) {
+                try {
+                    fileout.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return file;
     }
 }

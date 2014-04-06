@@ -164,8 +164,7 @@ public class StringArrayUtil {
     /*
      * Converts a byte to hex digit and writes to the supplied buffer
      */
-    final private static char[] hexChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8',
-            '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+    final private static char[] hexChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
     private static void byte2hex(byte b, StringBuffer buf) {
         int high = ((b & 0xf0) >> 4);
@@ -189,14 +188,10 @@ public class StringArrayUtil {
      */
     public static String byte2hex(byte[] b, char delimeter) {
         StringBuffer sb = new StringBuffer();
-
         for (int n = 0; n < b.length; n++) {
             byte2hex(b[n], sb);
-
-            // ��������һ��byte������ո�
             if (n < (b.length - 1) && delimeter != 0)
                 sb.append(delimeter);
-
         }
         return sb.toString().toLowerCase();
     }
@@ -217,11 +212,9 @@ public class StringArrayUtil {
             byte hi = (byte) Character.toUpperCase(hexStr.charAt(i));
             byte lo = (byte) Character.toUpperCase(hexStr.charAt(i + 1));
             if (!Character.isDigit((char) hi) && !(hi >= 'A' && hi <= 'F'))
-                throw new AssertionError("Hex2Byte() fail: hex string is invalid in " + i
-                        + " with char '" + hexStr.charAt(i) + "'");
+                throw new AssertionError("Hex2Byte() fail: hex string is invalid in " + i + " with char '" + hexStr.charAt(i) + "'");
             if (!Character.isDigit((char) lo) && !(lo >= 'A' && lo <= 'F'))
-                throw new AssertionError("Hex2Byte() fail: hex string is invalid in "
-                        + (i + 1) + " with char '" + hexStr.charAt(i + 1) + "'");
+                throw new AssertionError("Hex2Byte() fail: hex string is invalid in " + (i + 1) + " with char '" + hexStr.charAt(i + 1) + "'");
 
             int ch = 0;
             ch |= (Character.isDigit((char) hi) ? (hi - '0') : (0x0a + hi - 'A')) << 4;

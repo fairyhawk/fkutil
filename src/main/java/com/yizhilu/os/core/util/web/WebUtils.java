@@ -488,4 +488,89 @@ public class WebUtils {
         }
         return "";
     }
+
+    public static String clearXSS(String code) {
+        code = code.replaceAll("(?i)<script[^>]*>([\\s\\S]*?)</script>", "");
+        code = code.replaceAll("(?i)<script[^>]*(/)?>", "");
+        code = code.replaceAll("(?i)<applet[^>]*>([\\s\\S]*?)</applet>", "");
+        code = code.replaceAll("(?i)<base[^>]*>([\\s\\S]*?)</base>", "");
+        code = code.replaceAll("(?i)<base[^>]*(/)?>", "");
+        code = code.replaceAll("(?i)<head[^>]*>([\\s\\S]*?)</head>", "");
+        code = code.replaceAll("(?i)<style[^>]*(/)?>", "");
+        code = code.replaceAll("(?i)<style[^>]*>([\\s\\S]*?)</style>", "");
+        code = code.replaceAll("(?i)<link[^>]*(/)?>", "");
+        code = code.replaceAll("(?i)<link[^>]*>([\\s\\S]*?)</link>", "");
+        code = code.replaceAll("(?i)<meta[^>]*(/)?>", "");
+        code = code.replaceAll("(?i)<meta[^>]*>([\\s\\S]*?)</meta>", "");
+        code = code.replaceAll("(?i)<title[^>]*(/)?>", "");
+        code = code.replaceAll("(?i)<title[^>]*>([\\s\\S]*?)</title>", "");
+        code = code.replaceAll("(?i)<object[^>]*(/)?>", "");
+        code = code.replaceAll("(?i)<object[^>]*>([\\s\\S]*?)</object>", "");
+        code = code.replaceAll("(?i)<embed[^>]*(/)?>", "");
+        code = code.replaceAll("(?i)<embed[^>]*>([\\s\\S]*?)</embed>", "");
+        code = code.replaceAll("(?i)<frame[^>]*(/)?>", "");
+        code = code.replaceAll("(?i)<frame[^>]*>([\\s\\S]*?)</frame>", "");
+        code = code.replaceAll("(?i)<frameset[^>]*(/)?>", "");
+        code = code.replaceAll("(?i)<frameset[^>]*>([\\s\\S]*?)</frameset>", "");
+        code = code.replaceAll("(?i)<iframe[^>]*(/)?>", "");
+        code = code.replaceAll("(?i)<iframe[^>]*>([\\s\\S]*?)</iframe>", "");
+        code = code.replaceAll("(?i)<!--([\\s\\S]*?)-->", "");
+        code = code.replaceAll("(?i)^!--(.*)--$", "");
+        code = code.replaceAll("(?i)javascript:", "");
+        code = code.replaceAll("(?i)vbscript:", "");
+        code = code.replaceAll("(?i)data:", "");
+        code = code.replaceAll("(?i)mhtml:", "");
+        code = code.replaceAll("(?i)ms-its:", "");
+        code = code.replaceAll("(?i)firefoxurl:", "");
+        code = code.replaceAll("(?i)mocha:", "");
+        code = code.replaceAll("(?i)livescript:", "");
+        code = code.replaceAll("(?i)mocha:", "");
+        code = code.replaceAll("(?i)eval\\(([\\s\\S]*?)\\)", "");
+        code = code.replaceAll("(?i)expression\\(([\\s\\S]*?)\\)", "");
+        code = code.replaceAll("(?i)url\\(([\\s\\S]*?)\\)", "");
+        code = code.replaceAll("(?i) on([^>]*?)=", " ");
+        code = code.replaceAll("(?i)style([\\s\\S]*?)=([\\s\\S]*?)/\\*([\\s\\S]*?)\\*/[^>]*", "");
+        return code;
+    }
+
+    public static boolean isJointMobileNumber(String mobileNumber) {
+        String pattern = "^(1([0-9]{10}))$";
+        return mobileNumber.matches(pattern);
+    }
+
+    /**
+     * 判断手机号
+     */
+    public static boolean isJointUserLoginName(String mobileNumber) {
+        // 判断该用户是否是 手机用户
+        return isJointMobileNumber(mobileNumber);
+    }
+
+    /**
+     * 验证邮箱
+     * 
+     * @param value
+     * @param length
+     *            邮箱长度 默认不超过40
+     * @return
+     */
+    public static boolean checkEmail(String value, int length) {
+        if (length == 0) {
+            length = 40;
+        }
+        return value.matches("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*") && value.length() <= length;
+    }
+
+    /**
+     * 验证字符是否为6-16为字符、数字或下划线组成
+     * 
+     * @param password
+     * @return
+     */
+    public static boolean isPasswordAvailable(String password) {
+        String partten = "^[_0-9a-zA-Z]{3,}$";
+        boolean flag = password.matches(partten) && password.length() >= 6 && password.length() <= 16;
+        return flag;
+    }
+
 }

@@ -5,6 +5,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+import com.yizhilu.os.core.util.MD5;
+
 /**
  * 
  * @ClassName com.yizhilu.os.core.util.Security.Digest
@@ -240,6 +242,11 @@ public class Digest {
             e.printStackTrace();
             return null;
         }
+    }
+    public static void main(String[] args) {
+        System.out.println(digest("11","utf-8"));
+        System.out.println(MD5.getMD5("1"));
+        System.out.println(udpSign("17ba0791499db908433b80f37c5fbc89b870084b"));
     }
 
 }

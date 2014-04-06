@@ -5,7 +5,6 @@ import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.crypto.spec.DESKeySpec;
-//import java.io.UnsupportedEncodingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.SecretKey;
@@ -18,19 +17,18 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import javax.crypto.NoSuchPaddingException;
+
 /**
  * ANSI X9.9 MAC校验算法
- *
- * DES加密结果：
- *   des key    = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
- *   des data   = {0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37};
- *   des result = 1b 18 b9 7a 85 f9 67 e9
- *
- * MAC加密结果：
- *   mac key    = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
- *   mac data   = {0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37};
- *   mac result = a1 e8 02 aa 02 74 74 bb
- *
+ * 
+ * DES加密结果： des key = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08}; des data
+ * = {0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37}; des result = 1b 18 b9 7a
+ * 85 f9 67 e9
+ * 
+ * MAC加密结果： mac key = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08}; mac data
+ * = {0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x31,
+ * 0x32, 0x33, 0x34, 0x35, 0x36, 0x37}; mac result = a1 e8 02 aa 02 74 74 bb
+ * 
  */
 public class MessageAuthenticationCode {
 
@@ -47,9 +45,8 @@ public class MessageAuthenticationCode {
      * @throws IllegalBlockSizeException
      * @throws IllegalStateException
      */
-    public static byte[] mac(byte[] key, byte[] data) throws NoSuchAlgorithmException,
-            NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException, IllegalStateException {
+    public static byte[] mac(byte[] key, byte[] data) throws NoSuchAlgorithmException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException,
+            IllegalBlockSizeException, IllegalStateException {
 
         return mac(key, data, 0, data.length);
     }
@@ -70,9 +67,7 @@ public class MessageAuthenticationCode {
      * @throws IllegalStateException
      */
 
-    public static byte[] mac(byte[] key, byte[] data, int offset, int len)
-            throws NoSuchAlgorithmException, NoSuchPaddingException,
-            NoSuchAlgorithmException, InvalidKeyException, BadPaddingException,
+    public static byte[] mac(byte[] key, byte[] data, int offset, int len) throws NoSuchAlgorithmException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException,
             IllegalBlockSizeException, IllegalStateException {
         final String Algorithm = "DES"; // DES,DESede,Blowfish
 
@@ -103,8 +98,7 @@ public class MessageAuthenticationCode {
      * @throws NoSuchAlgorithmException
      * @throws Exception
      */
-    public static byte[] desEncryption(byte[] key, byte[] data)
-            throws NoSuchAlgorithmException, Exception {
+    public static byte[] desEncryption(byte[] key, byte[] data) throws NoSuchAlgorithmException, Exception {
         final String Algorithm = "DES/ECB/NoPadding"; // ���� �����㷨,����
                                                       // DES,DESede,Blowfish
 
@@ -139,8 +133,7 @@ public class MessageAuthenticationCode {
      * @throws NoSuchAlgorithmException
      * @throws Exception
      */
-    public static byte[] desDecryption(byte[] key, byte[] data)
-            throws NoSuchAlgorithmException, Exception {
+    public static byte[] desDecryption(byte[] key, byte[] data) throws NoSuchAlgorithmException, Exception {
         final String Algorithm = "DES/ECB/NoPadding"; // ����
                                                       // DES,DESede,Blowfish
 
@@ -204,15 +197,10 @@ public class MessageAuthenticationCode {
      * @throws IllegalBlockSizeException
      * @throws IllegalStateException
      */
-    public static byte[] des3Encryption(byte[] key, byte[] data)
-            throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException, IllegalStateException {
+    public static byte[] des3Encryption(byte[] key, byte[] data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException,
+            IllegalStateException {
         final String Algorithm = "DESede"; // DES,DESede,Blowfish
-
-        //
         SecretKey deskey = new SecretKeySpec(key, Algorithm);
-
-        //
         Cipher c1 = Cipher.getInstance(Algorithm);
         c1.init(Cipher.ENCRYPT_MODE, deskey);
         return c1.doFinal(data);
@@ -230,14 +218,10 @@ public class MessageAuthenticationCode {
      * @throws IllegalBlockSizeException
      * @throws IllegalStateException
      */
-    public static byte[] des3Decryption(byte[] key, byte[] data)
-            throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException, IllegalStateException {
-        final String Algorithm = "DESede"; // ���� �����㷨,����
-                                           // DES,DESede,Blowfish
-
+    public static byte[] des3Decryption(byte[] key, byte[] data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException,
+            IllegalStateException {
+        final String Algorithm = "DESede"; 
         SecretKey deskey = new SecretKeySpec(key, Algorithm);
-
         Cipher c1 = Cipher.getInstance(Algorithm);
         c1.init(Cipher.DECRYPT_MODE, deskey);
         return c1.doFinal(data);
@@ -258,22 +242,16 @@ public class MessageAuthenticationCode {
      * @throws InvalidAlgorithmParameterException
      * @throws InvalidKeySpecException
      */
-    public static byte[] des3Encryption(byte[] key, byte[] iv, byte[] data)
-            throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException, IllegalStateException,
-            InvalidAlgorithmParameterException, InvalidKeySpecException {
-        final String Algorithm = "DESede/CBC/PKCS5Padding"; // ���� �����㷨,����
-                                                            // DES,DESede,Blowfish
-        // �����Կ
+    public static byte[] des3Encryption(byte[] key, byte[] iv, byte[] data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException,
+            IllegalBlockSizeException, IllegalStateException, InvalidAlgorithmParameterException, InvalidKeySpecException {
+        final String Algorithm = "DESede/CBC/PKCS5Padding";
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DESede");
         DESedeKeySpec spec = new DESedeKeySpec(key);
         SecretKey deskey = keyFactory.generateSecret(spec);
-        // SecretKey deskey = new SecretKeySpec(key, Algorithm);
         IvParameterSpec tempIv = new IvParameterSpec(iv);
         Cipher c1 = Cipher.getInstance(Algorithm);
         c1.init(Cipher.ENCRYPT_MODE, deskey, tempIv);
         return c1.doFinal(data);
-
     }
 
     /**
@@ -291,12 +269,9 @@ public class MessageAuthenticationCode {
      * @throws InvalidAlgorithmParameterException
      * @throws InvalidKeySpecException
      */
-    public static byte[] des3Decryption(byte[] key, byte[] iv, byte[] data)
-            throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException, IllegalStateException,
-            InvalidAlgorithmParameterException, InvalidKeySpecException {
-        final String Algorithm = "DESede/CBC/PKCS5Padding"; // ���� �����㷨,����
-                                                            // DES,DESede,Blowfish
+    public static byte[] des3Decryption(byte[] key, byte[] iv, byte[] data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException,
+            IllegalBlockSizeException, IllegalStateException, InvalidAlgorithmParameterException, InvalidKeySpecException {
+        final String Algorithm = "DESede/CBC/PKCS5Padding"; //
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DESede");
         DESedeKeySpec spec = new DESedeKeySpec(key);
         SecretKey deskey = keyFactory.generateSecret(spec);
@@ -309,30 +284,25 @@ public class MessageAuthenticationCode {
 
     }
 
-    public static void main(String[] args) throws InvalidKeyException,
-            NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException,
-            IllegalBlockSizeException, IllegalStateException,
-            InvalidAlgorithmParameterException, InvalidKeySpecException,
-            UnsupportedEncodingException {
+    public static void main(String[] args) throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException, IllegalStateException,
+            InvalidAlgorithmParameterException, InvalidKeySpecException, UnsupportedEncodingException {
         String key = "6647b807e97889fca8b60047e85d9186e380d3c234f71566";
-        byte[] keyb = StringArrayUtil.hex2byte(key, key.length());
         String iv = "9df131b13df6bdfe";
+
+        byte[] keyb = StringArrayUtil.hex2byte(key, key.length());
         byte[] ivb = StringArrayUtil.hex2byte(iv, iv.length());
         String value = "2032309250345045,500";
+
         // byte[]temp_value =StringArrayUtil.hex2byte(value, value.length());
         byte[] temp_bytes = des3Encryption(keyb, ivb, value.getBytes("UTF-8"));
-
-        System.out.println("en=" + StringArrayUtil.byte2hex(temp_bytes));
-
-        byte[] decrptBytes = des3Decryption(keyb, ivb, StringArrayUtil.hex2byte(
-                "da0dde2d75cef459faa40a068232cd2eaddf0c7bcd7ef53d",
-                "da0dde2d75cef459faa40a068232cd2eaddf0c7bcd7ef53d".length()));
+        String en = StringArrayUtil.byte2hex(temp_bytes);
+        System.out.println("en=" + en);
+        byte[] decrptBytes = des3Decryption(keyb, ivb, temp_bytes);
         System.out.println("de=" + new String(decrptBytes, "UTF-8"));
 
         String md5key = "66ea3f65-382a-44f6-97e4-15b0a873332f";
 
-        String tempMD5 = "PICODE=PI00001CARDDATA=" + StringArrayUtil.byte2hex(temp_bytes)
-                + md5key;
+        String tempMD5 = "PICODE=PI00001CARDDATA=" + StringArrayUtil.byte2hex(temp_bytes) + md5key;
         System.out.println(tempMD5);
 
         String md5 = Digest.hmacSign(tempMD5);

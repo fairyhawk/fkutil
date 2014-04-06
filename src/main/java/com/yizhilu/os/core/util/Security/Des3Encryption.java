@@ -1,7 +1,6 @@
 package com.yizhilu.os.core.util.Security;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.security.Key;
 
 import javax.crypto.Cipher;
@@ -144,25 +143,27 @@ public class Des3Encryption {
     }
 
     public static String encode(String value) {
-        return encode("a1b2c3d4e5f6g7h8i9j0klmn", value);
+        return encode("z9aa179L5c2g0253375qx67G", value);
     }
 
     public static String decode(String value) {
-        return decode("a1b2c3d4e5f6g7h8i9j0klmn", value);
+        return decode("z9aa179L5c2g0253375qx67G", value);
     }
 
-    @SuppressWarnings("deprecation")
     public static void main(String[] args) throws UnsupportedEncodingException {
-        String content = "Cz%2F0YwKtY44gLnMbKB6V20cv9fXtxCITe8P2TdLgZCDmeP8wyihbt%2FerJD6D8dA3gtxunh8%2BbA41rBVeA8%2FUZRgwtZxNGHZQDAJ9v%2BtLIljfJoVGj0mZ92Ph6B%2B%2FOwE3lIEhj%2F1LJMbnib%2BX5KaHnJ%2Bx0K1firqFTqk6wUD7CLYxZ5FFyYy1qmoDNh3LKjILe3ZiGNJGJDGQoN6e6cfJAkhL4EiBxXQO%2BLvoyWdBsFiTlMISreYWR%2FBteu8wbLguSjnAIwccBDEwwhh1xKHWOl8QPdJYToFNNQiDrHFgWpN7M9FtkDlqjrd5rpDNDWVIFAj%2F1ltVm6sd9pkstUwyo4kUmtCWU11c6NlP2PA2KZWn221kLsGoG%2B2r6DH8nP1Qyt6nFtGin7YgMVNix51LGA%3D%3D";
-        content = URLDecoder.decode(content);
+        /*String content = "Cz%2F0YwKtY44gLnMbKB6V20cv9fXtxCITe8P2TdLgZCDmeP8wyihbt%2FerJD6D8dA3gtxunh8%2BbA41rBVeA8%2FUZRgwtZxNGHZQDAJ9v%2BtLIljfJoVGj0mZ92Ph6B%2B%2FOwE3lIEhj%2F1LJMbnib%2BX5KaHnJ%2Bx0K1firqFTqk6wUD7CLYxZ5FFyYy1qmoDNh3LKjILe3ZiGNJGJDGQoN6e6cfJAkhL4EiBxXQO%2BLvoyWdBsFiTlMISreYWR%2FBteu8wbLguSjnAIwccBDEwwhh1xKHWOl8QPdJYToFNNQiDrHFgWpN7M9FtkDlqjrd5rpDNDWVIFAj%2F1ltVm6sd9pkstUwyo4kUmtCWU11c6NlP2PA2KZWn221kLsGoG%2B2r6DH8nP1Qyt6nFtGin7YgMVNix51LGA%3D%3D";
+        content = URLDecoder.decode(content,CHAR_ENCODING);
         String key = "Rk6SokaffBChWCw2ZBiDrUZDkMJGpHwQ8i8ujKIvlD3UbQ7y";
         String crypt = udpDecrypt(key, content);
-        System.out.println(crypt);
+        System.out.println(crypt);*/
         // byte[] keys =
         // Hex.decode("Rk6SokaffBChWCw2ZBiDrUZDkMJGpHwQ8i8ujKIvlD3UbQ7y");
         // for(byte b : keys){
         // System.out.print(b);
         // }
         // System.out.println(ConvertUtils.fromHex("Rk6SokaffBChWCw2ZBiDrUZDkMJGpHwQ8i8ujKIvlD3UbQ7y"));
+        
+        System.out.println(encryptToHex("l3Z5q138122111tyl3Z53812","1,2,3"));
+        System.out.println(decryptFromHex("l3Z5q138122111tyl3Z53812","10cfebdc47b27286"));
     }
 }
