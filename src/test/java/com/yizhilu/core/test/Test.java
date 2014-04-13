@@ -1,4 +1,7 @@
 package com.yizhilu.core.test;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeUtils;
+
 import com.google.gson.JsonObject;
 import com.yizhilu.os.core.util.FileUtil;
 
@@ -9,11 +12,16 @@ public class Test {
 		json.addProperty("error", 0);
 		System.out.println( ""+json);
 */
-	    
+	 /*   
 	    String photoName = "/dfd/dfdf/dfdfdaa/a099888.jpg"
                 .substring("/dfd/dfdf/dfdfdaa/a099888.jpg".lastIndexOf("/")+1);
 	    System.out.println(photoName);
         photoName = FileUtil.getRandomFileNameString(photoName);
-        System.out.println(photoName);
+        System.out.println(photoName);*/
+        
+	    DateTime dateTime = new DateTime();
+	    System.out.println(dateTime.toString("yyyy-MM-dd HH:mm:ss"));
+	    System.out.println(DateTimeUtils.currentTimeMillis());
+	    
 	}
 }
