@@ -41,7 +41,7 @@ public class BaseController {
     public static JsonParser jsonParser = new JsonParser();
     private PageEntity page;// 分页数据单独保存
 
-    public Map<String, Object> json = new HashMap<String, Object>();
+    public Map<String, Object> json = new HashMap<String, Object>(4);
 
     // 公用返回路径
     public String login = "/login";
