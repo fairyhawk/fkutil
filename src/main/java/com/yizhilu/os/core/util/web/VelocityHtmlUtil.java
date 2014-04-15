@@ -122,23 +122,5 @@ public class VelocityHtmlUtil {
         this.setValue(param);
         this.toFile(himlFile);
     }
-
-    public static void main(String[] args) {
-        try {
-            VelocityHtmlUtil htmlUtil = new VelocityHtmlUtil("D:\\","123.vm");
-            Map<String, Object> param = new HashMap<>();
-            param.put("name", "刘庆刚");
-            List<String> list = new ArrayList<String>();
-            list.add("222");
-            list.add("333");
-            list.add("6567");
-            list.add("8879879");
-            list.add("098756");
-            param.put("name", "刘庆刚");
-            param.put("data", list);
-            System.out.println("text:" + htmlUtil.getText(param));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
+   
 }
