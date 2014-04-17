@@ -384,7 +384,8 @@ public class WebUtils {
     public static String getAddressByIP(String ip) {
         String js = visitWeb("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=" + ip);
         JsonParser jsonParser = new JsonParser();
-        JsonObject jo = jsonParser.parse(js.substring(21)).getAsJsonObject();
+        js=js.trim();
+        JsonObject jo = jsonParser.parse(js.substring(21,js.length()-1)).getAsJsonObject();
         String province = "";
         String city = "";
         try {
