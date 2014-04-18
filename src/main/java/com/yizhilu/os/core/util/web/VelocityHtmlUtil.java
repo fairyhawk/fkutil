@@ -3,9 +3,6 @@ package com.yizhilu.os.core.util.web;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -25,10 +22,10 @@ public class VelocityHtmlUtil {
     private VelocityContext context = null;
     private Template template = null;
     private String basepath = null;
-    
+
     public VelocityHtmlUtil() {
     }
-    
+
     public VelocityHtmlUtil(String basepath, String vmFile) {
         this.basepath = basepath;
         this.loadvm(vmFile);
@@ -122,5 +119,10 @@ public class VelocityHtmlUtil {
         this.setValue(param);
         this.toFile(himlFile);
     }
-   
+
+    public static void main(String[] args) {
+        VelocityHtmlUtil htmlUtil = new VelocityHtmlUtil("D:\\workspaces\\demo_admin\\src\\main\\webapp\\back\\images\\website", "a.vm");
+        htmlUtil.put("name", "u009");
+        System.out.println(htmlUtil.getText());
+    }
 }
