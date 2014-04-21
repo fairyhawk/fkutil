@@ -44,7 +44,6 @@ public class FileUtil {
     private static final String rootpath = propertyUtil.getProperty("file.root");
 
     private static final String tempPath = "temp";// 临时目录
-
     /**
      * 
      * 
@@ -375,4 +374,27 @@ public class FileUtil {
         }
         return file;
     }
+    
+    /**
+     * 删除图片，限定格式gif,jpg,jpeg,png,bmp
+     * 
+     * @param filePath
+     * @return
+     */
+    public static boolean deleteImageFile(String filePath) {
+        String realpath = rootpath + filePath;// 真实物理路径
+        realpath.replaceAll("//", "/");//防止双符号
+        File file = new File(realpath);
+        // 只删除图片。防止误删除
+        if (checkFileName(filePath)) {
+            if (file.exists()) {
+                file.delete();
+            }
+            return true;
+        } else {
+            return false;
+        }
+
+    };
+    
 }
