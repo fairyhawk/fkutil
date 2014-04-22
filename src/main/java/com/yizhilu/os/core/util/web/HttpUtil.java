@@ -20,16 +20,15 @@ import org.apache.log4j.Logger;
 import com.yizhilu.os.core.util.ObjectUtils;
 
 /**
- * @ClassName  com.yizhilu.os.core.util.web.HttpUtil
+ * @ClassName com.yizhilu.os.core.util.web.HttpUtil
  * @description
  * @author : qinggang.liu bis@foxmail.com
  * @Create Date : 2014-4-15 下午12:51:53
  */
 public class HttpUtil {
 
-    
     private static final Logger logger = Logger.getLogger(HttpUtil.class);
-    
+
     /**
      * 执行一个HTTP GET请求，返回请求响应的HTML
      * 
@@ -70,7 +69,7 @@ public class HttpUtil {
      * @return 返回请求响应的HTML
      */
     public static String doPost(String url, Map<String, String> params) {
-        logger.info("Post Url:"+url+",Params:"+params);
+        logger.info("Post Url:" + url + ",Params:" + params);
         StringBuffer result = new StringBuffer();
         HttpClient client = new HttpClient();
         PostMethod method = new PostMethod(url);
@@ -97,9 +96,12 @@ public class HttpUtil {
         } finally {
             method.releaseConnection();
         }
-        logger.info("Post Return:"+result.toString());
+        logger.info("Post Return:" + result.toString());
         return result.toString();
     }
 
+    public static void main(String[] args) {
+        System.out.println(HttpUtil.doGet("http://qzapp.qlogo.cn/qzapp/100568103/919D152A760A30474048DB9EDF93941A/100", null));
+    }
 
 }
