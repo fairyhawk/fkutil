@@ -255,15 +255,25 @@ public class FileUtil {
      */
     public static JsonObject saveCutImage(String photoPath, int imageWidth, int imageHeight, int cutLeft, int cutTop, int dropWidth, int dropHeight) {
         JsonObject obj = new JsonObject();
-        // 新文件名
-        String newPhotoName = getRandomFileNameString(photoPath);
+       
         Rectangle rec = createPhotoCutRec(imageWidth, imageHeight, cutLeft, cutTop, dropWidth, dropHeight);
-        photoPath = photoPath.replace(importroot, rootpath);
-        File tempPic = new File(photoPath);
+        
+        File tempPic = new File(rootpath+photoPath);
         // 新文件路径
-        newPhotoName = photoPath.substring(0, photoPath.lastIndexOf("/")) + newPhotoName;
-        newPhotoName = newPhotoName.replace(tempPath, "customer");
-        File file = new File(newPhotoName);
+        String newSavepath=photoPath.substring(0, photoPath.lastIndexOf("/")).replace(tempPath, "customer");
+        File isD = new File(newSavepath);
+        // 校验如果目录不存在，则创建目录
+        if (!isD.isDirectory()) {
+            isD.mkdirs();
+        }
+        if (!isD.exists()) {
+            synchronized (FileUtil.class) {
+                isD.mkdirs();
+            }
+        }
+        // 新文件名
+        String newPhotoName =newSavepath+"/"+getRandomFileNameString(photoPath);
+        File file = new File(rootpath+newPhotoName);
         try {
 
             saveSubImage(tempPic, file, rec, new int[] { imageWidth, imageHeight, cutLeft, cutTop, dropWidth, dropHeight });
@@ -414,7 +424,6 @@ public class FileUtil {
      */
     public static  JsonObject saveFile(String urlString, String savepath) {
         JsonObject obj = new JsonObject();
-        System.out.println(savepath);
         // 锁结束
         File isD = new File(savepath);
         // 校验如果目录不存在，则创建目录
