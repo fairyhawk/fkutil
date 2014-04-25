@@ -202,7 +202,7 @@ public class WebUtils {
                         if (StringUtils.isNotEmpty(domain)) {// domain != null
                             ck.setDomain(domain);
                         }
-                        ck.setMaxAge(-1);
+                        ck.setMaxAge(0);
                         response.addCookie(ck);
                         return;
                     }

@@ -278,7 +278,7 @@ public class FileUtil {
 
             saveSubImage(tempPic, file, rec, new int[] { imageWidth, imageHeight, cutLeft, cutTop, dropWidth, dropHeight });
             // 返回的地址
-            obj.addProperty("url", newPhotoName.replace(rootpath, ""));
+            obj.addProperty("url", newPhotoName.replace(rootpath, "/"));
             obj.addProperty("error", 0);
         } catch (IOException e) {
             e.printStackTrace();
@@ -437,7 +437,7 @@ public class FileUtil {
         }
         // 新文件名
         String newFileName = getRandomFileNameString("a.jpg");
-        String saveFilename = savepath + File.separator + newFileName;
+        String saveFilename = savepath + "/" + newFileName;
         try {
           //new一个URL对象  
             URL url = new URL(urlString);  
@@ -462,7 +462,7 @@ public class FileUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        obj.addProperty("url", saveFilename);
+        obj.addProperty("url", saveFilename.replace(rootpath, "/"));
         return obj;
 
     }
