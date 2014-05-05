@@ -19,27 +19,21 @@ import org.apache.log4j.Logger;
  */
 public class IndexDatasourcePathUtil {
 
-
     private IndexDatasourcePathUtil() {
     }
 
-    public static Map<String, String[]> getAlertEmail(
-            String type, String keyword) {
+    public static Map<String, String[]> getAlertEmail(String type, String keyword) {
         Properties properties = new Properties();
         try {
-            properties.load(IndexDatasourcePathUtil.class
-                    .getResourceAsStream("/lucene.properties"));
+            properties.load(IndexDatasourcePathUtil.class.getResourceAsStream("/project.properties"));
         } catch (IOException e) {
-            logger.error("lucene配置文件路径不对,请检查lucene.properties是否存在");
-            throw new RuntimeException(
-                    "lucene配置文件路径不对,请检查lucene.properties是否存在");
+            logger.error("lucene配置文件路径不对,请检查project.properties是否存在");
+            throw new RuntimeException("lucene配置文件路径不对,请检查project.properties是否存在");
         }
         synchronized (IndexDatasourcePathUtil.class) {
             Map<String, String[]> alermail = new HashMap<String, String[]>();
-            alermail.put("alertaddress", properties.getProperty("alertemail")
-                    .split(","));
-            String[] emailparams = new String[] { new Date().toString(),
-                     type, keyword };
+            alermail.put("alertaddress", properties.getProperty("alertemail").split(","));
+            String[] emailparams = new String[] { new Date().toString(), type, keyword };
             alermail.put("emailparams", emailparams);
             return alermail;
         }
@@ -55,56 +49,28 @@ public class IndexDatasourcePathUtil {
         return instance;
     }
 
-    private static Logger logger = Logger
-            .getLogger(IndexDatasourcePathUtil.class);
+    private static Logger logger = Logger.getLogger(IndexDatasourcePathUtil.class);
 
     /**
-     * 
-     * @param tomcathome
-     *            tomcat安装路径
-     * @param city
      * @param type
      * @return 索引文件目录路径(主)
      */
-    public static String getIndexDir( String type) {
+    public static String getIndexDir(String type) {
         Properties properties = new Properties();
         try {
-            properties.load(IndexDatasourcePathUtil.class
-                    .getResourceAsStream("/lucene.properties"));
+            properties.load(IndexDatasourcePathUtil.class.getResourceAsStream("/project.properties"));
         } catch (IOException e) {
-            logger.error("lucene配置文件路径不对,请检查lucene.properties是否存在");
-            throw new RuntimeException(
-                    "lucene配置文件路径不对,请检查lucene.properties是否存在");
+            logger.error("lucene配置文件路径不对,请检查project.properties是否存在");
+            throw new RuntimeException("lucene配置文件路径不对,请检查project.properties是否存在");
         }
         String indexDir = null;
         // FIXME
         synchronized (IndexDatasourcePathUtil.class) {
             indexDir = MessageFormat.format(properties.getProperty("luceneIndexDir"), type);
         }
-        logger.info("lucene索引文件主路径"+",type:"+type+",indexDir:" + indexDir);
         return indexDir;
     }
-    
-    public static String getSpellCheckerIndexDir() {
-        Properties properties = new Properties();
-        try {
-            properties.load(IndexDatasourcePathUtil.class
-                    .getResourceAsStream("/lucene.properties"));
-        } catch (IOException e) {
 
-            logger.error("lucene配置文件路径不对,请检查lucene.properties是否存在");
-            throw new RuntimeException(
-                    "lucene配置文件路径不对,请检查lucene.properties是否存在");
-        }
-        String indexDir = null;
-        synchronized (IndexDatasourcePathUtil.class) {
-            indexDir = properties
-                    .getProperty("spellcheckerIndexDir");
-        }
-
-        logger.info("seo spellchecker index 文件主路径=" + indexDir);
-        return indexDir;
-    }
     /**
      * 
      * @param tomcathome
@@ -115,21 +81,17 @@ public class IndexDatasourcePathUtil {
     public static String getIndexDirBak(String type) {
         Properties properties = new Properties();
         try {
-            properties.load(IndexDatasourcePathUtil.class
-                    .getResourceAsStream("/lucene.properties"));
+            properties.load(IndexDatasourcePathUtil.class.getResourceAsStream("/project.properties"));
         } catch (IOException e) {
-            logger.error("lucene配置文件路径不对,请检查lucene.properties是否存在");
-            throw new RuntimeException(
-                    "lucene配置文件路径不对,请检查lucene.properties是否存在");
+            logger.error("lucene配置文件路径不对,请检查project.properties是否存在");
+            throw new RuntimeException("lucene配置文件路径不对,请检查project.properties是否存在");
         }
         String indexDir = null;
         // FIXME
         synchronized (IndexDatasourcePathUtil.class) {
-            indexDir = MessageFormat.format(properties
-                    .getProperty("luceneIndexDirBak"), type);
+            indexDir = MessageFormat.format(properties.getProperty("luceneIndexDirBak"), type);
         }
-        logger.info(" luceneIndexDirBak lucene索引文件备份路径=" + indexDir);
         return indexDir;
     }
-   
+
 }

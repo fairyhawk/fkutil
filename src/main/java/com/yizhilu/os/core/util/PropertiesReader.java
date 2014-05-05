@@ -7,6 +7,7 @@ import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+
 /**
  * @ClassName com.supergenius.sns.util.PropertiesReader
  * @description 获取配置文件
@@ -69,8 +70,10 @@ public class PropertiesReader {
         try {
             Properties properties = new Properties();
             PropertiesReader propertiesReader = new PropertiesReader();
-            String staticPath = propertiesReader.getClass().getClassLoader()
-                    .getResource("").getPath();
+            String staticPath = propertiesReader.getClass().getClassLoader().getResource("").getPath();
+            if (file_name.indexOf(".properties") < 0) {
+                file_name += ".properties";
+            }
             String file_name_path = staticPath + file_name;
             FileInputStream in = new FileInputStream(file_name_path);
             properties.load(in);
@@ -81,6 +84,7 @@ public class PropertiesReader {
             fis.close();// 关闭流
         } catch (Exception e) {
             e.printStackTrace();
+            System.exit(0);
         }
 
     }
