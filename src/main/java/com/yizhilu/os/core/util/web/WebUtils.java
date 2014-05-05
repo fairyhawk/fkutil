@@ -16,6 +16,8 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -609,4 +611,29 @@ public class WebUtils {
         return flag;
     }
 
+    /**
+     * 微博中发布时把网址加链接
+     * 
+     * @param src
+     * @return
+     */
+    public static String replaceTagHref(String src) {
+        //微博中的表情图片地址不替换
+        if(src.indexOf("kindeditor/plugins/emoticons/images")>0){
+            return src;
+        }
+        try {
+            String reg = "((http|https)://)([a-zA-Z0-9\\._-]+\\.[a-zA-Z]{2,6})(:[0-9]{1,4})*(/[a-zA-Z0-9\\&%_#\\./-~-]*)?";
+            Pattern pattern = Pattern.compile(reg, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(src);
+            if (matcher.find()) {
+                String ms = matcher.group();
+                return src.replace(ms, "<a class='c-blue fsize14' target='_blank' href='" + ms + "'>" + ms + "</a>");
+            }
+            return src;
+        } catch (Exception e) {
+            return src;
+        }
+
+    }
 }
