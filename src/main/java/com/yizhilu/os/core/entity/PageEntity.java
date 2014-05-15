@@ -98,13 +98,31 @@ public class PageEntity implements Serializable {
      * @return
      */
     public List<Integer> getPageNums() {
+        int maxDispalyCount = 7;// 最多显示7个页码
+        int beforeCount = 3;// 当前页码前面显示数字
         List<Integer> returnList = new ArrayList<Integer>();
-        int startNum = getCurrentPage() - getPageSize() < 1 ? 1 : getCurrentPage()
-                - getPageSize();
-        int endNum = getCurrentPage() + getPageSize() > getTotalPageSize() ? getTotalPageSize()
-                : getCurrentPage() + getPageSize();
-        for (int i = startNum; i <= endNum; i++) {
-            returnList.add(i);
+        if(getTotalPageSize()<=maxDispalyCount){
+            for(int i=1;i<=getTotalPageSize();i++){
+                returnList.add(i);
+            }
+            return returnList;
+        }
+        int maxNum_new = getCurrentPage() > beforeCount ? maxDispalyCount : maxDispalyCount - currentPage;
+        int discnt = 1;
+        for (int i = beforeCount; i > 0; i--) {
+            if (currentPage > i) {
+                returnList.add(currentPage - i);
+                discnt++;
+            }
+        }
+        returnList.add(currentPage);
+        for (int i = 1; i <= maxNum_new; i++) {
+            if (currentPage + i <= getTotalPageSize() && discnt < maxDispalyCount) {
+                returnList.add(currentPage + i);
+                discnt++;
+            } else {
+                break;
+            }
         }
         return returnList;
     }
