@@ -900,4 +900,36 @@ public class StringUtils {
         return ObjectUtils.isNull(obj) ? true : isBlank(obj.toString());
     }
 
+    /**
+     * 格式化日期
+     * 
+     * @param oldDate
+     * @return
+     */
+    public static String getModelDate(Date oldDate) {
+        // 判断为空
+        if (ObjectUtils.isNotNull(oldDate)) {
+            Date newDate = new Date();
+            long second = (newDate.getTime() - oldDate.getTime()) / 1000;
+            if (second <= 60) {// 0-60秒
+                return second + "秒前";
+            } else if (60 < second && second <= (60 * 60)) {// 1-60分钟
+                second = second / 60;// 分钟数
+                return second + "分钟前";
+            } else if (60 * 60 < second && second <= (60 * 60 * 24)) {// 1-24小时
+                second = second / 60 / 60;// 小时数
+                return second + "小时前";
+            } else if (60 * 60 * 24 < second && second <= (60 * 60 * 24 * 10)) {// 2-10天
+                String formatDate = DateUtils.formatDate(oldDate, "HH:mm:ss");
+                second = second / 60 / 60 / 24;// 天数
+                return second + "天前 " + formatDate;
+            } else {
+                // 大于10天不符合条件按原格式返回
+                return DateUtils.formatDate(oldDate, "yyyy-MM-dd HH:mm:ss");
+            }
+        } else {
+            return "";
+        }
+    }
+
 }
