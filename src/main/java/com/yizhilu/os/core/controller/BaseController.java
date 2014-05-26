@@ -44,9 +44,8 @@ public class BaseController {
     public Map<String, Object> json = new HashMap<String, Object>(4);
 
     // 公用返回路径
-    public String login = "/login";
     public String changeSuccess = "/admin/common/success";// 修改成功提示页面
-    protected static String ADMIN_SUCCESS = "redirect:/sys/success";// 后台提交成功
+
     /**
      * 封装Json返回信息
      * 
@@ -75,6 +74,7 @@ public class BaseController {
 
     protected static final String ERROR = "/error/error";// 前台错误信息
     protected static final String ADMIN_ERROR = "/admin/error/error";// 后台错误信息
+    protected static String ADMIN_SUCCESS = "redirect:/admin/sys/success";// 后台提交成功
 
     public String getUuid() {
         return UUID.randomUUID().toString();
