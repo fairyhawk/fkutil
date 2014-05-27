@@ -16,8 +16,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.yizhilu.os.core.entity.CoreConstant;
-
 /**
  * 
  * @ClassName com.supergenius.sns.action.common.RandomCodeAction
@@ -28,6 +26,7 @@ import com.yizhilu.os.core.entity.CoreConstant;
 @Controller
 public class RandomCodeController {
 
+    public static final String RAND_CODE="COMMON_RAND_CODE";
     /**
      * 
      * @param randomCodeName
@@ -53,11 +52,11 @@ public class RandomCodeController {
         Random random = new Random();
 
         // 设定背景色
-        g.setColor(new Color(124, 124, 124, 255));
+        g.setColor(new Color(214, 243, 255));//getRandColor(200, 250
         g.fillRect(0, 0, width, height);
 
         // 设定字体
-        g.setFont(new Font("Times New Roman", Font.PLAIN, 27));
+        g.setFont(new Font("Microsoft YaHei", Font.HANGING_BASELINE, 24));
 
         // 随机产生155条干扰线，使图象中的认证码不易被其它程序探测到
 
@@ -69,33 +68,20 @@ public class RandomCodeController {
             g.drawLine(x, y, x + xl, y + yl);
         }
 
-        // 取随机产生的认证码(4位数字)
+     // 取随机产生的认证码(4位数字)
         String sRand = "";
         for (int i = 0; i < 4; i++) {
             String rand = String.valueOf(random.nextInt(10));
             sRand += rand;
             // 将认证码显示到图象中
-            Random random1 = new Random();
-            int ri = random1.nextInt(4);
-            if (0 == ri) {
-
-                g.setColor(new Color(162, 162, 162, 255));
-            }
-            if (1 == ri) {
-                g.setColor(new Color(56, 56, 56, 255));
-            }
-            if (2 == ri) {
-                g.setColor(new Color(255, 255, 255, 255));
-            }
-            if (3 == ri) {
-                g.setColor(new Color(56, 56, 56, 255));
-            }
-            // 调用函数出来的颜色相同，可能是因为种子太接近，所以只能直接生成
-            g.drawString(rand, 16 * i + 10, 23);
+         //   g.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));// 调用函数出来的颜色相同，可能是因为种子太接近，所以只能直接生成
+            g.setColor(new Color(0, 109, 243));// 调用函数出来的颜色相同，可能是因为种子太接近，所以只能直接生成
+            
+            g.drawString(rand, 13 * i + 16, 23);
         }
 
         // 将认证码存入SESSION
-        session.setAttribute(CoreConstant.RAND_CODE, sRand);
+        session.setAttribute(RAND_CODE, sRand);
         // 图象生效
         g.dispose();
 
