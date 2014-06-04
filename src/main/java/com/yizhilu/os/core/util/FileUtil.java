@@ -484,4 +484,61 @@ public class FileUtil {
         return outStream.toByteArray();  
     }  
     
+    
+    /**
+     *  上传普通文件
+     * 
+     * @param file
+     *            文件
+     * @param paths
+     *            路径 0物理 1 URL
+     * @returned JsonObject
+     */
+    public static JsonObject saveCommonFile(MultipartFile file, String[] paths) {
+
+        JsonObject obj = new JsonObject();
+        try {
+            // 存储物理路径
+            String savePath = paths[0];
+            // 返回的url
+            String urlPath = paths[1];
+            String newFileName = "";// 新的文件名
+            String upFileName = file.getOriginalFilename();
+            // 保存第一张图片
+            if (StringUtils.isNotEmpty(upFileName)) {
+                // 新文件名
+                newFileName = getRandomFileNameString(upFileName);
+                // 锁结束
+                File isD = new File(savePath);
+                // 校验如果目录不存在，则创建目录
+                if (!isD.isDirectory()) {
+                    isD.mkdirs();
+                }
+                if (!isD.exists()) {
+                    synchronized (FileUtil.class) {
+                        isD.mkdirs();
+                    }
+                }
+                String saveFilename = savePath + File.separator + newFileName;
+                // 保存文件
+                file.transferTo(new File(saveFilename));
+                obj.addProperty("error", 0);
+                urlPath = urlPath + "/" + newFileName;
+                obj.addProperty("url", urlPath);
+            } else {
+                obj.addProperty("error", -1);
+                obj.addProperty("message", "文件名为空");
+            }
+
+            return obj;
+
+        } catch (Exception e) {
+            logger.error("+++upload kindeditor images error", e);
+            obj.addProperty("error", -1);
+            obj.addProperty("message", "上传异常，请稍后再试");
+            return obj;
+        }
+
+    }
+    
 }
