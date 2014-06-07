@@ -1,6 +1,7 @@
 package com.yizhilu.os.core.datasource;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
  * 
  */
 public class FKRoutingDataSource extends AbstractRoutingDataSource {
-    private static final Logger logger = Logger.getLogger(FKRoutingDataSource.class);
+    private static final Logger logger = LoggerFactory.getLogger(FKRoutingDataSource.class);
     // 数据源key的存储控制器
     private DataSourceKeyControl dataSourceKeyControl;
 

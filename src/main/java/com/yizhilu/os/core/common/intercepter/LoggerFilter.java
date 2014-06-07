@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -23,7 +24,7 @@ import com.yizhilu.os.core.util.web.WebUtils;
  */
 public class LoggerFilter extends HandlerInterceptorAdapter {
 
-    private static Logger logger = Logger.getLogger(LoggerFilter.class);
+    private static Logger logger = LoggerFactory.getLogger(LoggerFilter.class);
 
     @Getter
     @Setter

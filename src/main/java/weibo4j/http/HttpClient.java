@@ -29,7 +29,8 @@ import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.httpclient.protocol.Protocol;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import weibo4j.model.Configuration;
 import weibo4j.model.MySSLSocketFactory;
@@ -125,7 +126,7 @@ public class HttpClient implements java.io.Serializable {
 	}
 
 	private final static boolean DEBUG = Configuration.getDebug();
-	static Logger log = Logger.getLogger(HttpClient.class.getName());
+	static Logger log = LoggerFactory.getLogger(HttpClient.class.getName());
 	org.apache.commons.httpclient.HttpClient client = null;
 
 	private MultiThreadedHttpConnectionManager connectionManager;

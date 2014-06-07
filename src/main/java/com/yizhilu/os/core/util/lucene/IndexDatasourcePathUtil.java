@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @ClassName  IndexDatasourcePathUtil
@@ -49,7 +50,7 @@ public class IndexDatasourcePathUtil {
         return instance;
     }
 
-    private static Logger logger = Logger.getLogger(IndexDatasourcePathUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(IndexDatasourcePathUtil.class);
 
     /**
      * @param type

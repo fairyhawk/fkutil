@@ -13,7 +13,8 @@ import javax.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
@@ -34,7 +35,7 @@ import com.yizhilu.os.core.util.web.WebUtils;
 public class BaseController {
 
     // log对象
-    private static final Logger logger = Logger.getLogger(BaseController.class);
+    private static final Logger logger = LoggerFactory.getLogger(BaseController.class);
     // gson日期默认格式设置
     public static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss")
             .create();

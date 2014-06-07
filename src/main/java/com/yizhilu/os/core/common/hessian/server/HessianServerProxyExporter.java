@@ -6,7 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.remoting.caucho.HessianServiceExporter;
 
 import com.yizhilu.os.core.util.PropertyUtil;
@@ -21,7 +22,7 @@ import com.yizhilu.os.core.util.PropertyUtil;
  */
 public class HessianServerProxyExporter extends HessianServiceExporter {
 
-    private static Logger logger = Logger.getLogger(HessianServerProxyExporter.class);
+    private static Logger logger = LoggerFactory.getLogger(HessianServerProxyExporter.class);
 
     // 获取server端配置文件
     PropertyUtil propertyUtil = PropertyUtil.getInstance("project");

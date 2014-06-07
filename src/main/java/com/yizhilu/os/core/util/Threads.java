@@ -4,7 +4,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
@@ -91,7 +92,7 @@ public class Threads {
      */
     public static class WrapExceptionRunnable implements Runnable {
 
-        private static Logger logger = Logger.getLogger(WrapExceptionRunnable.class);
+        private static Logger logger = LoggerFactory.getLogger(WrapExceptionRunnable.class);
 
         private Runnable runnable;
 

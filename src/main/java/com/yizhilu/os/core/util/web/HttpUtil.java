@@ -15,7 +15,8 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.yizhilu.os.core.util.ObjectUtils;
 
@@ -27,7 +28,7 @@ import com.yizhilu.os.core.util.ObjectUtils;
  */
 public class HttpUtil {
 
-    private static final Logger logger = Logger.getLogger(HttpUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
     /**
      * 执行一个HTTP GET请求，返回请求响应的HTML

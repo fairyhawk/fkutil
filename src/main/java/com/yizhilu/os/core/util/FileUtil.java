@@ -21,7 +21,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonObject;
@@ -37,7 +38,7 @@ import com.yizhilu.os.core.util.image.ImageHelper;
 public class FileUtil {
     public static int CUS_PHOTO_WIDTH = 150;
     public static int CUS_PHOTO_HEIGHT = 150;
-    private static Logger logger = Logger.getLogger(FileUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(FileUtil.class);
     // 读取配置文件类
     public static PropertyUtil propertyUtil = PropertyUtil.getInstance("project");
 

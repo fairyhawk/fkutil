@@ -8,7 +8,8 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
@@ -21,7 +22,7 @@ import org.springframework.beans.factory.InitializingBean;
  * 
  */
 public class DataSourceKeyControlImpl implements DataSourceKeyControl, InitializingBean {
-    private static final Logger logger = Logger.getLogger(DataSourceKeyControlImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(DataSourceKeyControlImpl.class);
     // 数据源key的存储
     private static final ThreadLocal<String> DB_KEY = new ThreadLocal<String>();
 
