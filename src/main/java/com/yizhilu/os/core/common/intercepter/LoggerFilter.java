@@ -67,9 +67,9 @@ public class LoggerFilter extends HandlerInterceptorAdapter {
             String key = enume.nextElement();
             String[] value = request.getParameterValues(key);
             if (buffer.toString().length() > 0) {
-                buffer.append(";");
+                buffer.append("  ");
             }
-            buffer.append(key).append(":").append(Arrays.toString(value));
+            buffer.append(key).append("=").append(Arrays.toString(value));
         }
         logger.info("+++user_access_log,ip=" + ip + ",url=" + path + ",parameter="
                 + buffer);
