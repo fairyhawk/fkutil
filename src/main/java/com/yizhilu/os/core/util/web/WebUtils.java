@@ -636,4 +636,23 @@ public class WebUtils {
         }
 
     }
+    /**
+     * 是否是ajax请求
+     * @param request
+     * @return
+     */
+    public static boolean isAjaxRequest(HttpServletRequest request){
+        String her=  request.getHeader("x-requested-with");
+        if(StringUtils.isNotEmpty(her)){
+            return true;
+        }
+        return false;
+     }
+    
+    public static boolean isNotAjaxRequest(HttpServletRequest request){
+        return !isAjaxRequest(request);
+        
+     }
+
+    
 }
