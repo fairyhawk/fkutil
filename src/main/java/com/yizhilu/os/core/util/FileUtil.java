@@ -197,7 +197,6 @@ public class FileUtil {
         String param = request.getParameter("param");// 区分模块的变量 如：考试、商品、课程等区分
         String dateStr = DateUtils.toString(new Date(), "yyyyMMdd");
         String ukey = request.getParameter("ukey");// 用户唯一key
-        System.out.println("ukey="+ukey);
         StringBuffer savePath = new StringBuffer();
         StringBuffer urlPath = new StringBuffer();
         savePath.append(propertyUtil.getProperty("file.root")).append(pathfix);
@@ -220,9 +219,6 @@ public class FileUtil {
         
         savePath.append("/"  ).append(dateStr);
         urlPath.append("/"  ).append(dateStr);
-        
-        System.out.println("savePath.toString():"+savePath.toString());
-        System.out.println("urlPath.toString():"+urlPath.toString());
         
         String[] result = new String[] { savePath.toString(), urlPath.toString() };
         return result;
