@@ -623,7 +623,8 @@ public class WebUtils {
             return src;
         }
         try {
-            String reg = "((http|https)://)([a-zA-Z0-9\\._-]+\\.[a-zA-Z]{2,6})(:[0-9]{1,4})*(/[a-zA-Z0-9\\&%_#\\./-~-]*)?";
+            //String reg = "((http|https)://)([a-zA-Z0-9\\._-]+\\.[a-zA-Z]{2,6})(:[0-9]{1,4})*(/[a-zA-Z0-9\\&%_#\\./-~-]*)?";
+            String reg ="(http|ftp|https):\\/\\/[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
             Pattern pattern = Pattern.compile(reg, Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(src);
             if (matcher.find()) {
