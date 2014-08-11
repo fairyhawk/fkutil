@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonObject;
+import com.yizhilu.os.core.util.DateUtils;
 import com.yizhilu.os.core.util.image.ImageHelper;
 
 /**
@@ -195,19 +196,35 @@ public class FileUtil {
         String base = request.getParameter("base");// 区分项目的变量 如：恒企、仁和等区分
         String param = request.getParameter("param");// 区分模块的变量 如：考试、商品、课程等区分
         String dateStr = DateUtils.toString(new Date(), "yyyyMMdd");
-
+        String uid = request.getParameter("ukey");// 用户唯一key
+        
+        StringBuffer savePath = new StringBuffer();
+        StringBuffer urlPath = new StringBuffer();
+        savePath.append(propertyUtil.getProperty("file.root")).append(pathfix);
+        urlPath.append( "/").append(pathfix);
         if (StringUtils.isEmpty(base)) {
             base = "yizhilu";// 临时，未传次参数的项目统一到yizhilu目录下
         }
+        savePath.append("/"  ).append(base);
+        urlPath.append("/"  ).append(base);
         if (StringUtils.isEmpty(param)) {
             param = "common";// 临时，未传的项目统一到common目录下
         }
-        // 拼凑 存储物理路径
-        String savePath = propertyUtil.getProperty("file.root") + pathfix + "/" + base + "/" + param + "/" + dateStr;
-        // 拼凑 url
-        String urlPath = "/" + pathfix + "/" + base + "/" + param + "/" + dateStr;
-
-        String[] result = new String[] { savePath, urlPath };
+        savePath.append("/"  ).append(param);
+        urlPath.append("/"  ).append(param);
+        
+        if (StringUtils.isEmpty(uid)) {
+            savePath.append("/"  ).append(uid);
+            urlPath.append("/"  ).append(uid);
+        }
+        
+        savePath.append("/"  ).append(dateStr);
+        urlPath.append("/"  ).append(dateStr);
+        
+        System.out.println("savePath.toString():"+savePath.toString());
+        System.out.println("urlPath.toString():"+urlPath.toString());
+        
+        String[] result = new String[] { savePath.toString(), urlPath.toString() };
         return result;
     }
 
