@@ -1,6 +1,8 @@
 package com.yizhilu.os.core.util.web;
 
+import java.awt.datatransfer.SystemFlavorMap;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -654,6 +656,15 @@ public class WebUtils {
         return !isAjaxRequest(request);
         
      }
-
     
+    /**
+     * 获取web项目的路径
+     */
+    public String getWebRootPath(){
+        String s= System.getProperty("user.dir");
+        if(s.indexOf("classes")>0){
+            s=s.replace("WEB-INF", "").replace("classes", "").replace(File.separator+File.separator, File.separator);
+        }
+        return s;
+    }
 }
