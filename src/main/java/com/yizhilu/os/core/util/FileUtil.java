@@ -42,10 +42,9 @@ public class FileUtil {
     // 读取配置文件类
     public static PropertyUtil propertyUtil = PropertyUtil.getInstance("project");
 
-    private static final String pathfix = propertyUtil.getProperty("file.pathfix");//
     // 统一传到pathfix下
+    private static final String pathfix = propertyUtil.getProperty("file.pathfix");//
 
-    private static final String importroot = propertyUtil.getProperty("import.root");
     private static final String rootpath = propertyUtil.getProperty("file.root");
 
     private static final String tempPath = "temp";// 临时目录
