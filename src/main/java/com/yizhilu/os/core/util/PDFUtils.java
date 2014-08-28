@@ -65,19 +65,25 @@ public class PDFUtils {
             if (!outputFile.getParentFile().exists()) {
                 outputFile.getParentFile().mkdirs();
             }
-            // connect to an OpenOffice.org instance running on port 8100
+           /* // connect to an OpenOffice.org instance running on port 8100
             OpenOfficeConnection connection = new SocketOpenOfficeConnection("127.0.0.1", 8100);
             connection.connect();
             // convert
             DocumentConverter converter = new OpenOfficeDocumentConverter(connection);
             converter.convert(inputFile, outputFile);
             // close the connection
-            connection.disconnect();
+            connection.disconnect();*/
+            
+            String[] cmdA = { "/bin/sh", "-c", "doc2pdf.sh "+inputFile, outputFile+" " +outputFile};  
+            Process process = Runtime.getRuntime().exec(cmdA);  
+            process.waitFor();  
+            
+            
             return destFile.replace(rootpath, "/");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "error";
+        return null;
     }
 
     /**
@@ -96,6 +102,7 @@ public class PDFUtils {
             sourceFile=sourceFile.replace(File.separator+File.separator, File.separator);
             // pdf路径
             String pdfPath = office2PDF(sourceFile.replace(rootpath, "/"));
+            if(pdfPath==null) return null;
             // 文件路径
             String destFile = "";
             if (sourceFile.lastIndexOf(".") >= 0) {
