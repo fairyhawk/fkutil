@@ -3,7 +3,7 @@ package com.yizhilu.core.test;
 /**
  * @ClassName  com.yizhilu.core.test.FileDisk
  * @description
- * @author : qinggang.liu bis@foxmail.com
+ * @author : qinggang.liu voo@163.com
  * @Create Date : 2014-2-27 上午11:18:57
  */
 

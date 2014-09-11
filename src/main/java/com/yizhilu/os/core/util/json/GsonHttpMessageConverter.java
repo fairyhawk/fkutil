@@ -25,7 +25,7 @@ import com.google.gson.JsonSyntaxException;
 /**
  * @ClassName  com.yizhilu.os.core.util.json.GsonHttpMessageConverter
  * @description
- * @author : qinggang.liu bis@foxmail.com
+ * @author : qinggang.liu voo@163.com
  * @Create Date : 2014-1-25 下午5:00:39
  */
 

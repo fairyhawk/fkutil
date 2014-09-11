@@ -13,7 +13,7 @@ import com.yizhilu.os.core.util.PropertyUtil;
 /**
  * @ClassName com.yizhilu.os.ssicore.common.InitListener
  * @description
- * @author : qinggang.liu bis@foxmail.com
+ * @author : qinggang.liu voo@163.com
  * @Create Date : 2014-4-15 下午2:29:08
  */
 public class InitListener extends ContextLoaderListener {

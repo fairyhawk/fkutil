@@ -23,7 +23,7 @@ import com.yizhilu.os.core.util.ObjectUtils;
 /**
  * @ClassName com.yizhilu.os.core.util.web.HttpUtil
  * @description
- * @author : qinggang.liu bis@foxmail.com
+ * @author : qinggang.liu voo@163.com
  * @Create Date : 2014-4-15 下午12:51:53
  */
 public class HttpUtil {

@@ -9,7 +9,7 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
  * @ClassName DataSourceRouter
  * @package com.yizhilu.os.core.db
  * @description 取得数据源的KEY
- * @author bis@foxmail.com
+ * @author voo@163.com
  * @Create Date: 2013-2-26 下午02:51:53
  * 
  */

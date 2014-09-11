@@ -12,7 +12,7 @@ import org.springframework.util.PatternMatchUtils;
  * @ClassName DataSourceInterceptor
  * @package com.yizhilu.os.core.db
  * @description
- * @author bis@foxmail.com
+ * @author voo@163.com
  * @Create Date: 2013-2-26 下午02:52:06
  * 
  */

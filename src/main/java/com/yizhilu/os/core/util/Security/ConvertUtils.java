@@ -17,7 +17,7 @@ import java.util.TimeZone;
  * 
  * @ClassName com.yizhilu.os.core.util.Security.ConvertUtils
  * @description
- * @author : qinggang.liu bis@foxmail.com
+ * @author : qinggang.liu voo@163.com
  * @Create Date : 2014-1-11 上午9:29:15
  */
 public abstract class ConvertUtils {
