@@ -6,7 +6,7 @@ import java.io.UnsupportedEncodingException;
  * 
  * @ClassName com.yizhilu.os.core.util.Security.Base64
  * @description
- * @author : qinggang.liu bis@foxmail.com
+ * @author : qinggang.liu voo@163.com
  * @Create Date : 2014-1-11 上午9:29:04
  */
 public class Base64 {

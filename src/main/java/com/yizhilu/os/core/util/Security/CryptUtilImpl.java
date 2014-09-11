@@ -11,7 +11,7 @@ import com.yizhilu.os.core.util.StringUtils;
  * 
  * @ClassName com.yizhilu.os.core.util.Security.CryptUtilImpl
  * @description
- * @author : qinggang.liu bis@foxmail.com
+ * @author : qinggang.liu voo@163.com
  * @Create Date : 2014-1-11 上午9:29:31
  */
 public class CryptUtilImpl implements CryptUtil {

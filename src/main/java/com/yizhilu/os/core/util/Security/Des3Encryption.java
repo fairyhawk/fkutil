@@ -12,7 +12,7 @@ import javax.crypto.spec.IvParameterSpec;
  * 
  * @ClassName com.yizhilu.os.core.util.Security.Des3Encryption
  * @description
- * @author : qinggang.liu bis@foxmail.com
+ * @author : qinggang.liu voo@163.com
  * @Create Date : 2014-1-11 上午9:29:36
  */
 public class Des3Encryption {

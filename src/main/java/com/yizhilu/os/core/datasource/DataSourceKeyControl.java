@@ -7,7 +7,7 @@ import java.util.Map;
  * @ClassName DataSourceKeyControl
  * @package com.yizhilu.os.core.db
  * @description 数据源key的存储控制器接口
- * @author bis@foxmail.com
+ * @author voo@163.com
  * @Create Date: 2013-2-26 下午02:51:28
  * 
  */

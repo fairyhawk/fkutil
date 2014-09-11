@@ -7,7 +7,7 @@ import java.util.Set;
  * 
  * @ClassName com.supergenius.sns.service.common.MemCache
  * @description memcache操作类
- * @author : qinggang.liu bis@foxmail.com
+ * @author : qinggang.liu voo@163.com
  * @Create Date : 2013-12-25 上午11:55:52
  */
 public class MemCache {

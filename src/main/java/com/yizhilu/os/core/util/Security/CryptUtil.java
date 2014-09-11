@@ -11,7 +11,7 @@ package com.yizhilu.os.core.util.Security;
  * 
  * @ClassName com.yizhilu.os.core.util.Security.CryptUtil
  * @description
- * @author : qinggang.liu bis@foxmail.com
+ * @author : qinggang.liu voo@163.com
  * @Create Date : 2014-1-11 上午9:29:21
  */
 public interface CryptUtil {

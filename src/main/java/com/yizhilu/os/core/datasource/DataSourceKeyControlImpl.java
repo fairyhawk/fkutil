@@ -16,7 +16,7 @@ import org.springframework.beans.factory.InitializingBean;
  * @ClassName DataSourceKeyControlImpl
  * @package com.yizhilu.os.core.db
  * @description 数据源key的真正返回控制器
- * @author bis@foxmail.com
+ * @author voo@163.com
  * @Create Date: 2013-2-26 下午02:51:39
  * 
  */

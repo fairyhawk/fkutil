@@ -11,7 +11,7 @@ import com.yizhilu.os.core.util.MD5;
  * 
  * @ClassName com.yizhilu.os.core.util.Security.Digest
  * @description
- * @author : qinggang.liu bis@foxmail.com
+ * @author : qinggang.liu voo@163.com
  * @Create Date : 2014-1-11 上午9:29:39
  */
 public class Digest {
